@@ -1,0 +1,10 @@
+ROM absolute address     Usage                Execution Address
+------------------------------------------------------------------------------------
+$0000-$07FF            - printer firmware   - Mapped into $C800-$CFFF when executing
+$0800-$0FFF            - 80Column firmware  - Mapped into $C800-$CFFF when executing
+$1000-$3FFF            - Low part of BASIC  - Mapped into $9000-$BFFF when executing
+$4100-$41FF            - Printer firmware   - Mapped into $C100-$C1FF
+$4300-$43FF            - 80 column firmware - Mapped into $C300-$C3FF
+$4400-$4FFF            - unused?
+$5000-$7FFF            - High part of BASIC - Mapped into $D000-$FFFF when executing
+

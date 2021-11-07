@@ -1,0 +1,1899 @@
+﻿ROM:C600             ; START OF FUNCTION CHUNK FOR CHKDIS
+ROM:C600             DISK_SLOT6:                             ; CODE XREF: CHKDIS+E↓j
+ROM:C600 E5                          .BYTE $E5
+ROM:C601 20                          .BYTE $20
+ROM:C601             ; END OF FUNCTION CHUNK FOR CHKDIS
+ROM:C602 B4                          .BYTE $B4
+ROM:C603 00          S6_DISK_ID1:    .BYTE 0                 ; DATA XREF: CHKDIS+7↓r
+ROM:C604             ; ---------------------------------------------------------------------------
+ROM:C604 A2 03                       LDX     #3
+ROM:C604             ; ---------------------------------------------------------------------------
+ROM:C606 F0                          .BYTE $F0
+ROM:C607 3C          S6_DISK_ID2:    .BYTE $3C               ; DATA XREF: CHKDIS↓r
+ROM:C608             ; ---------------------------------------------------------------------------
+ROM:C608 CD FF CF                    CMP     ROMCLEAR        ; disable all $C8XX rom extensions
+ROM:C60B 20 7A CE                    JSR     BUILD_XLATE
+ROM:C60E 20 C0 C9                    JSR     CALC_SLOT       ; Figure out what slot we are running from. Index in Y
+ROM:C611 19 11 C0                    ORA     $C011,Y
+ROM:C614 19 13 C0                    ORA     $C013,Y
+ROM:C617 19 0F C0                    ORA     $C00F,Y
+ROM:C61A 39 0E C0                    AND     $C00E,Y
+ROM:C61D A2 E8                       LDX     #$E8
+ROM:C61F
+ROM:C61F             step_out:                               ; CODE XREF: ROM:C644↓j
+ROM:C61F 39 0C C0                    AND     $C00C,Y
+ROM:C622 20 58 CE                    JSR     phase_delay
+ROM:C625 19 0B C0                    ORA     $C00B,Y
+ROM:C628 19 0A C0                    ORA     $C00A,Y
+ROM:C62B 20 58 CE                    JSR     phase_delay
+ROM:C62E 19 09 C0                    ORA     $C009,Y
+ROM:C631 39 08 C0                    AND     $C008,Y
+ROM:C634 20 58 CE                    JSR     phase_delay
+ROM:C637 19 07 C0                    ORA     $C007,Y
+ROM:C63A 19 06 C0                    ORA     $C006,Y
+ROM:C63D 20 58 CE                    JSR     phase_delay
+ROM:C640 19 05 C0                    ORA     $C005,Y
+ROM:C643 E8                          INX
+ROM:C644 30 D9                       BMI     step_out
+ROM:C646 A9 04                       LDA     #4
+ROM:C648 0A                          ASL     A               ; A = 08
+ROM:C649 85 27                       STA     FKEYPH
+ROM:C64B 86 3D                       STX     REG1H
+ROM:C64D 86 41                       STX     byte_41
+ROM:C64F 86 26                       STX     FKEYPL
+ROM:C651
+ROM:C651             loc_C651:                               ; CODE XREF: ROM:loc_C65F↓j
+ROM:C651 20 A6 03                    JSR     byte_3A6        ; JMP $C678
+ROM:C654 18                          CLC
+ROM:C655 90 13                       BCC     loc_C66A
+ROM:C655             ; ---------------------------------------------------------------------------
+ROM:C657 63                          .BYTE $63
+ROM:C658 FF                          .BYTE $FF
+ROM:C659 FF                          .BYTE $FF
+ROM:C65A FF                          .BYTE $FF
+ROM:C65B FF                          .BYTE $FF
+ROM:C65C             ; ---------------------------------------------------------------------------
+ROM:C65C 38                          SEC
+ROM:C65D B0 08                       BCS     loc_C667        ; 37E = 4C 72 C6  == JMP $C672
+ROM:C65F
+ROM:C65F             loc_C65F:                               ; CODE XREF: ROM:C6DA↓j
+ROM:C65F 90 F0                       BCC     loc_C651        ; JMP $C678
+ROM:C661 EA                          NOP
+ROM:C662 EA                          NOP
+ROM:C663 68                          PLA
+ROM:C664 18                          CLC
+ROM:C665 B0 00                       BCS     loc_C667        ; 37E = 4C 72 C6  == JMP $C672
+ROM:C667
+ROM:C667             loc_C667:                               ; CODE XREF: ROM:C65D↑j
+ROM:C667                                                     ; ROM:C665↑j
+ROM:C667 20 7E 03                    JSR     byte_37E        ; 37E = 4C 72 C6  == JMP $C672
+ROM:C66A
+ROM:C66A             loc_C66A:                               ; CODE XREF: ROM:C655↑j
+ROM:C66A                                                     ; ROM:C6C4↓j
+ROM:C66A A5 2B                       LDA     SBAS2H
+ROM:C66C AA                          TAX
+ROM:C66D A0 00                       LDY     #0
+ROM:C66F 18                          CLC
+ROM:C670 90 79                       BCC     loc_C6EB
+ROM:C672 CD FF CF                    CMP     ROMCLEAR        ; disable all $C8XX rom extensions
+ROM:C675 20 74 CE                    JSR     loc_CE74
+ROM:C678 4C 00 C8                    JMP     DISK_C800
+ROM:C678             ; ---------------------------------------------------------------------------
+ROM:C67B FF                          .BYTE $FF
+ROM:C67C FF                          .BYTE $FF
+ROM:C67D FF                          .BYTE $FF
+ROM:C67E FF                          .BYTE $FF
+ROM:C67F FF                          .BYTE $FF
+ROM:C680 FF                          .BYTE $FF
+ROM:C681 FF                          .BYTE $FF
+ROM:C682 FF                          .BYTE $FF
+ROM:C683 FF                          .BYTE $FF
+ROM:C684 FF                          .BYTE $FF
+ROM:C685 FF                          .BYTE $FF
+ROM:C686 FF                          .BYTE $FF
+ROM:C687 FF                          .BYTE $FF
+ROM:C688 FF                          .BYTE $FF
+ROM:C689 FF                          .BYTE $FF
+ROM:C68A FF                          .BYTE $FF
+ROM:C68B FF                          .BYTE $FF
+ROM:C68C FF                          .BYTE $FF
+ROM:C68D FF                          .BYTE $FF
+ROM:C68E FF                          .BYTE $FF
+ROM:C68F FF                          .BYTE $FF
+ROM:C690 FF                          .BYTE $FF
+ROM:C691 FF                          .BYTE $FF
+ROM:C692 FF                          .BYTE $FF
+ROM:C693 FF                          .BYTE $FF
+ROM:C694 FF                          .BYTE $FF
+ROM:C695 FF                          .BYTE $FF
+ROM:C696 FF                          .BYTE $FF
+ROM:C697 FF                          .BYTE $FF
+ROM:C698 FF                          .BYTE $FF
+ROM:C699 FF                          .BYTE $FF
+ROM:C69A FF                          .BYTE $FF
+ROM:C69B FF                          .BYTE $FF
+ROM:C69C FF                          .BYTE $FF
+ROM:C69D FF                          .BYTE $FF
+ROM:C69E FF                          .BYTE $FF
+ROM:C69F FF                          .BYTE $FF
+ROM:C6A0 FF                          .BYTE $FF
+ROM:C6A1 FF                          .BYTE $FF
+ROM:C6A2 FF                          .BYTE $FF
+ROM:C6A3 FF                          .BYTE $FF
+ROM:C6A4 FF                          .BYTE $FF
+ROM:C6A5 FF                          .BYTE $FF
+ROM:C6A6             ; ---------------------------------------------------------------------------
+ROM:C6A6 8D 9A 03                    STA     byte_39A
+ROM:C6A9 A2 AB                       LDX     #$AB
+ROM:C6AB AC 98 03                    LDY     slot_index
+ROM:C6AE
+ROM:C6AE             loc_C6AE:                               ; CODE XREF: ROM:C6B6↓j
+ROM:C6AE B9 11 C0                    LDA     $C011,Y
+ROM:C6B1 30 05                       BMI     loc_C6B8
+ROM:C6B3 B9 11 C0                    LDA     $C011,Y
+ROM:C6B6 10 F6                       BPL     loc_C6AE
+ROM:C6B8
+ROM:C6B8             loc_C6B8:                               ; CODE XREF: ROM:C6B1↑j
+ROM:C6B8 0A                          ASL     A
+ROM:C6B9 A8                          TAY
+ROM:C6BA B9 00 CA                    LDA     byte_CA00,Y
+ROM:C6BD 8D 00 03                    STA     byte_300
+ROM:C6C0 20 EB C8                    JSR     loc_C8EB
+ROM:C6C3 18                          CLC
+ROM:C6C4 90 A4                       BCC     loc_C66A
+ROM:C6C6
+ROM:C6C6             loc_C6C6:                               ; CODE XREF: ROM:C6F1↓j
+ROM:C6C6 A6 27                       LDX     FKEYPH
+ROM:C6C8 E8                          INX
+ROM:C6C9 86 27                       STX     FKEYPH
+ROM:C6CB AC 98 03                    LDY     slot_index
+ROM:C6CE A6 3D                       LDX     REG1H
+ROM:C6D0 E8                          INX
+ROM:C6D1 10 02                       BPL     loc_C6D5
+ROM:C6D3 A4 2B                       LDY     SBAS2H
+ROM:C6D5
+ROM:C6D5             loc_C6D5:                               ; CODE XREF: ROM:C6D1↑j
+ROM:C6D5 EC 00 08                    CPX     byte_800
+ROM:C6D8 86 3D                       STX     REG1H
+ROM:C6DA 90 83                       BCC     loc_C65F
+ROM:C6DC 8A                          TXA
+ROM:C6DD A0 00                       LDY     #0
+ROM:C6DF A6 2B                       LDX     SBAS2H
+ROM:C6E1 B0 15                       BCS     loc_C6F8
+ROM:C6E3
+ROM:C6E3             loc_C6E3:                               ; CODE XREF: ROM:C6FC↓j
+ROM:C6E3 6C 50 CE                    JMP     (sector_ptr)
+ROM:C6E3             ; ---------------------------------------------------------------------------
+ROM:C6E6 FF                          .BYTE $FF
+ROM:C6E7 FF                          .BYTE $FF
+ROM:C6E8 FF                          .BYTE $FF
+ROM:C6E9 FF                          .BYTE $FF
+ROM:C6EA FF                          .BYTE $FF
+ROM:C6EB             ; ---------------------------------------------------------------------------
+ROM:C6EB
+ROM:C6EB             loc_C6EB:                               ; CODE XREF: ROM:C670↑j
+ROM:C6EB EA                          NOP
+ROM:C6EC EA                          NOP
+ROM:C6ED EA                          NOP
+ROM:C6EE EA                          NOP
+ROM:C6EF EA                          NOP
+ROM:C6F0 EA                          NOP
+ROM:C6F1 90 D3                       BCC     loc_C6C6
+ROM:C6F3 FF FF FF                    ISB     $FFFF,X
+ROM:C6F3             ; ---------------------------------------------------------------------------
+ROM:C6F6 FF                          .BYTE $FF
+ROM:C6F7 FF                          .BYTE $FF
+ROM:C6F8             ; ---------------------------------------------------------------------------
+ROM:C6F8
+ROM:C6F8             loc_C6F8:                               ; CODE XREF: ROM:C6E1↑j
+ROM:C6F8 EA                          NOP
+ROM:C6F9 EA                          NOP
+ROM:C6FA EA                          NOP
+ROM:C6FB EA                          NOP
+ROM:C6FC B0 E5                       BCS     loc_C6E3
+ROM:C6FE 00                          BRK
+ROM:C6FE             ; ---------------------------------------------------------------------------
+ROM:C6FF 00                          .BYTE   0
+
+
+
+ROM:C800             ; ---------------------------------------------------------------------------
+ROM:C800
+ROM:C800             This is Disk Interface $C8XX code. Printer/disk interfaces
+ROM:C800             have their own blocks.
+ROM:C800
+ROM:C800             DISK_C800:                              ; CODE XREF: ROM:C678↑j
+ROM:C800                                                     ; ROM:C902↓j ...
+ROM:C800 A6 41                       LDX     byte_41
+ROM:C802 BD 00 CE                    LDA     byte_CE00,X
+ROM:C805 8D B9 03                    STA     byte_3B9
+ROM:C808 BD 28 CE                    LDA     byte_CE28,X
+ROM:C80B 8D B8 03                    STA     byte_3B8
+ROM:C80E A6 3D                       LDX     REG1H
+ROM:C810 BD 00 CE                    LDA     byte_CE00,X
+ROM:C813 8D B7 03                    STA     byte_3B7
+ROM:C816 BD 28 CE                    LDA     byte_CE28,X
+ROM:C819 8D B6 03                    STA     byte_3B6
+ROM:C81C
+ROM:C81C             ; =============== S U B R O U T I N E =======================================
+ROM:C81C
+ROM:C81C
+ROM:C81C             sub_C81C:                               ; CODE XREF: sub_C84A↓j
+ROM:C81C                                                     ; ROM:C84F↓j ...
+ROM:C81C AC 98 03                    LDY     slot_index
+ROM:C81F A2 00                       LDX     #0
+ROM:C821 A9 D5                       LDA     #$D5            ; start of sector header
+ROM:C823
+ROM:C823             WAIT_D5:                                ; CODE XREF: sub_C81C+A↓j
+ROM:C823 D9 11 C0                    CMP     $C011,Y
+ROM:C826 D0 FB                       BNE     WAIT_D5
+ROM:C828
+ROM:C828             loc_C828:                               ; CODE XREF: sub_C81C+F↓j
+ROM:C828 39 11 C0                    AND     $C011,Y
+ROM:C82B 30 FB                       BMI     loc_C828
+ROM:C82D E8                          INX
+ROM:C82E
+ROM:C82E             loc_C82E:                               ; CODE XREF: ROM:C854↓j
+ROM:C82E B9 11 C0                    LDA     $C011,Y
+ROM:C831 30 19                       BMI     loc_C84C
+ROM:C833 B9 11 C0                    LDA     $C011,Y
+ROM:C833             ; End of function sub_C81C
+ROM:C833
+ROM:C836 30 14                       BMI     loc_C84C
+ROM:C838 B9 11 C0                    LDA     $C011,Y
+ROM:C83B 30 0F                       BMI     loc_C84C
+ROM:C83D B9 11 C0                    LDA     $C011,Y
+ROM:C840 30 0A                       BMI     loc_C84C
+ROM:C842 B9 11 C0                    LDA     $C011,Y
+ROM:C845 30 05                       BMI     loc_C84C
+ROM:C847             ; START OF FUNCTION CHUNK FOR sub_ADBA
+ROM:C847
+ROM:C847             loc_C847:                               ; CODE XREF: sub_ADBA+A↑j
+ROM:C847 B9 11 C0                    LDA     $C011,Y
+ROM:C847             ; END OF FUNCTION CHUNK FOR sub_ADBA
+ROM:C84A
+ROM:C84A             ; =============== S U B R O U T I N E =======================================
+ROM:C84A
+ROM:C84A             ; Attributes: thunk
+ROM:C84A
+ROM:C84A             sub_C84A:                               ; CODE XREF: sub_ADBA+15↑p
+ROM:C84A 10 D0                       BPL     sub_C81C
+ROM:C84C
+ROM:C84C             loc_C84C:                               ; CODE XREF: sub_C81C+15↑j
+ROM:C84C                                                     ; ROM:C836↑j ...
+ROM:C84C DD 52 CE                    CMP     SEC_HDR,X
+ROM:C84C             ; End of function sub_C84A
+ROM:C84C
+ROM:C84F D0 CB                       BNE     sub_C81C
+ROM:C851 E8                          INX
+ROM:C852 E0 03                       CPX     #3
+ROM:C854 90 D8                       BCC     loc_C82E
+ROM:C856 CA                          DEX
+ROM:C857
+ROM:C857             loc_C857:                               ; CODE XREF: ROM:C871↓j
+ROM:C857 B9 11 C0                    LDA     $C011,Y
+ROM:C85A 30 14                       BMI     loc_C870
+ROM:C85C B9 11 C0                    LDA     $C011,Y
+ROM:C85F 30 0F                       BMI     loc_C870
+ROM:C861 B9 11 C0                    LDA     $C011,Y
+ROM:C864 30 0A                       BMI     loc_C870
+ROM:C866 B9 11 C0                    LDA     $C011,Y
+ROM:C869 30 05                       BMI     loc_C870
+ROM:C86B B9 11 C0                    LDA     $C011,Y
+ROM:C86E 10 AC                       BPL     sub_C81C
+ROM:C870
+ROM:C870             loc_C870:                               ; CODE XREF: ROM:C85A↑j
+ROM:C870                                                     ; ROM:C85F↑j ...
+ROM:C870 CA                          DEX
+ROM:C871 D0 E4                       BNE     loc_C857
+ROM:C873 A2 04                       LDX     #4
+ROM:C875
+ROM:C875             loc_C875:                               ; CODE XREF: ROM:C899↓j
+ROM:C875 B9 11 C0                    LDA     $C011,Y
+ROM:C878
+ROM:C878             ; =============== S U B R O U T I N E =======================================
+ROM:C878
+ROM:C878
+ROM:C878             sub_C878:
+ROM:C878
+ROM:C878             ; FUNCTION CHUNK AT ROM:C893 SIZE 00000003 BYTES
+ROM:C878
+ROM:C878 30 19                       BMI     loc_C893
+ROM:C87A B9 11 C0                    LDA     $C011,Y
+ROM:C87D 30 14                       BMI     loc_C893
+ROM:C87F B9 11 C0                    LDA     $C011,Y
+ROM:C882 30 0F                       BMI     loc_C893
+ROM:C884 B9 11 C0                    LDA     $C011,Y
+ROM:C887 30 0A                       BMI     loc_C893
+ROM:C889 B9 11 C0                    LDA     $C011,Y
+ROM:C889             ; End of function sub_C878
+ROM:C889
+ROM:C88C 30 05                       BMI     loc_C893
+ROM:C88E B9 11 C0                    LDA     $C011,Y
+ROM:C891 10 3A                       BPL     loc_C8CD
+ROM:C893             ; START OF FUNCTION CHUNK FOR sub_C878
+ROM:C893
+ROM:C893             loc_C893:                               ; CODE XREF: sub_C878↑j
+ROM:C893                                                     ; sub_C878+5↑j ...
+ROM:C893 DD B5 03                    CMP     $3B5,X
+ROM:C893             ; END OF FUNCTION CHUNK FOR sub_C878
+ROM:C896 D0 35                       BNE     loc_C8CD
+ROM:C898 CA                          DEX
+ROM:C899 D0 DA                       BNE     loc_C875
+ROM:C89B A5 41                       LDA     byte_41
+ROM:C89D 85 40                       STA     byte_40
+ROM:C89F 8E 9A 03                    STX     byte_39A
+ROM:C8A2 A9 D5                       LDA     #$D5
+ROM:C8A4
+ROM:C8A4             loc_C8A4:                               ; CODE XREF: ROM:C8A7↓j
+ROM:C8A4 D9 11 C0                    CMP     $C011,Y
+ROM:C8A7 D0 FB                       BNE     loc_C8A4
+ROM:C8A9
+ROM:C8A9             loc_C8A9:                               ; CODE XREF: ROM:C8AC↓j
+ROM:C8A9 39 11 C0                    AND     $C011,Y
+ROM:C8AC 30 FB                       BMI     loc_C8A9
+ROM:C8AE E8                          INX
+ROM:C8AF
+ROM:C8AF             loc_C8AF:                               ; CODE XREF: ROM:C8D8↓j
+ROM:C8AF B9 11 C0                    LDA     $C011,Y
+ROM:C8B2 30 1C                       BMI     loc_C8D0
+ROM:C8B4 B9 11 C0                    LDA     $C011,Y
+ROM:C8B7 30 17                       BMI     loc_C8D0
+ROM:C8B9 B9 11 C0                    LDA     $C011,Y
+ROM:C8BC 30 12                       BMI     loc_C8D0
+ROM:C8BE B9 11 C0                    LDA     $C011,Y
+ROM:C8C1 30 0D                       BMI     loc_C8D0
+ROM:C8C3 B9 11 C0                    LDA     $C011,Y
+ROM:C8C6 30 08                       BMI     loc_C8D0
+ROM:C8C8 B9 11 C0                    LDA     $C011,Y
+ROM:C8CB 30 03                       BMI     loc_C8D0
+ROM:C8CD
+ROM:C8CD             loc_C8CD:                               ; CODE XREF: ROM:C891↑j
+ROM:C8CD                                                     ; ROM:C896↑j ...
+ROM:C8CD 4C 1C C8                    JMP     sub_C81C
+ROM:C8D0             ; ---------------------------------------------------------------------------
+ROM:C8D0
+ROM:C8D0             loc_C8D0:                               ; CODE XREF: ROM:C8B2↑j
+ROM:C8D0                                                     ; ROM:C8B7↑j ...
+ROM:C8D0 DD 55 CE                    CMP     SEC_TRAIL,X
+ROM:C8D3 D0 F8                       BNE     loc_C8CD
+ROM:C8D5 E8                          INX
+ROM:C8D6 E0 03                       CPX     #3
+ROM:C8D8 90 D5                       BCC     loc_C8AF
+ROM:C8DA A2 AA                       LDX     #$AA
+ROM:C8DC D0 10                       BNE     loc_C8EE
+ROM:C8DE
+ROM:C8DE             loc_C8DE:                               ; CODE XREF: ROM:C8F1↓j
+ROM:C8DE                                                     ; ROM:C8F6↓j ...
+ROM:C8DE 0A                          ASL     A
+ROM:C8DF A8                          TAY
+ROM:C8E0 B9 00 CA                    LDA     byte_CA00,Y
+ROM:C8E3 9D 56 02                    STA     $256,X
+ROM:C8E6 A0 00                       LDY     #0
+ROM:C8E8 E8                          INX
+ROM:C8E9 F0 24                       BEQ     loc_C90F
+ROM:C8EB
+ROM:C8EB             loc_C8EB:                               ; CODE XREF: ROM:C6C0↑p
+ROM:C8EB AC 98 03                    LDY     slot_index
+ROM:C8EE
+ROM:C8EE             loc_C8EE:                               ; CODE XREF: ROM:C8DC↑j
+ROM:C8EE B9 11 C0                    LDA     $C011,Y
+ROM:C8F1 30 EB                       BMI     loc_C8DE
+ROM:C8F3 B9 11 C0                    LDA     $C011,Y
+ROM:C8F6 30 E6                       BMI     loc_C8DE
+ROM:C8F8 B9 11 C0                    LDA     $C011,Y
+ROM:C8FB 30 E1                       BMI     loc_C8DE
+ROM:C8FD B9 11 C0                    LDA     $C011,Y
+ROM:C900 30 DC                       BMI     loc_C8DE
+ROM:C902 4C 00 C8                    JMP     DISK_C800
+ROM:C905             ; ---------------------------------------------------------------------------
+ROM:C905
+ROM:C905             loc_C905:                               ; CODE XREF: ROM:C915↓j
+ROM:C905                                                     ; ROM:C91A↓j ...
+ROM:C905 0A                          ASL     A
+ROM:C906 AA                          TAX
+ROM:C907 BD 00 CA                    LDA     byte_CA00,X
+ROM:C90A 91 26                       STA     ($26),Y
+ROM:C90C C8                          INY
+ROM:C90D
+ROM:C90D             loc_C90D:
+ROM:C90D F0 1A                       BEQ     loc_C929
+ROM:C90F
+ROM:C90F             loc_C90F:                               ; CODE XREF: ROM:C8E9↑j
+ROM:C90F AE 98 03                    LDX     slot_index
+ROM:C912 BD 11 C0                    LDA     $C011,X
+ROM:C915 30 EE                       BMI     loc_C905
+ROM:C917 BD 11 C0                    LDA     $C011,X
+ROM:C91A 30 E9                       BMI     loc_C905
+ROM:C91C BD 11 C0                    LDA     $C011,X
+ROM:C91F 30 E4                       BMI     loc_C905
+ROM:C921 BD 11 C0                    LDA     $C011,X
+ROM:C924 30 DF                       BMI     loc_C905
+ROM:C926 4C 00 C8                    JMP     DISK_C800
+ROM:C929             ; ---------------------------------------------------------------------------
+ROM:C929
+ROM:C929             loc_C929:                               ; CODE XREF: ROM:loc_C90D↑j
+ROM:C929 AC 98 03                    LDY     slot_index
+ROM:C92C B9 11 C0                    LDA     $C011,Y
+ROM:C92F 30 12                       BMI     loc_C943
+ROM:C931 B9 11 C0                    LDA     $C011,Y
+ROM:C934 30 0D                       BMI     loc_C943
+ROM:C936 B9 11 C0                    LDA     $C011,Y
+ROM:C939 30 08                       BMI     loc_C943
+ROM:C93B B9 11 C0                    LDA     $C011,Y
+ROM:C93E 30 03                       BMI     loc_C943
+ROM:C940 4C 00 C8                    JMP     DISK_C800
+ROM:C943             ; ---------------------------------------------------------------------------
+ROM:C943
+ROM:C943             loc_C943:                               ; CODE XREF: ROM:C92F↑j
+ROM:C943                                                     ; ROM:C934↑j ...
+ROM:C943 0A                          ASL     A
+ROM:C944 A8                          TAY
+ROM:C945 B9 00 CA                    LDA     byte_CA00,Y
+ROM:C948 8D 99 03                    STA     byte_399
+ROM:C94B AD 9A 03                    LDA     byte_39A
+ROM:C94E 0A                          ASL     A
+ROM:C94F 0A                          ASL     A
+ROM:C950 A0 AA                       LDY     #$AA
+ROM:C952
+ROM:C952             loc_C952:                               ; CODE XREF: ROM:C959↓j
+ROM:C952 59 56 02                    EOR     $256,Y
+ROM:C955 99 56 02                    STA     $256,Y
+ROM:C958 C8                          INY
+ROM:C959 D0 F7                       BNE     loc_C952
+ROM:C95B
+ROM:C95B             loc_C95B:                               ; CODE XREF: ROM:C960↓j
+ROM:C95B 51 26                       EOR     ($26),Y
+ROM:C95D 91 26                       STA     ($26),Y
+ROM:C95F C8                          INY
+ROM:C960 D0 F9                       BNE     loc_C95B
+ROM:C962 CD 99 03                    CMP     byte_399
+ROM:C965 F0 08                       BEQ     loc_C96F
+ROM:C967 A9 03                       LDA     #3
+ROM:C969 20 5A CE                    JSR     loc_CE5A
+ROM:C96C 4C 00 C8                    JMP     DISK_C800       ; DATA XREF: ROM:CA13↓t
+ROM:C96F             ; ---------------------------------------------------------------------------
+ROM:C96F
+ROM:C96F             loc_C96F:                               ; CODE XREF: ROM:C965↑j
+ROM:C96F 20 EE C9                    JSR     swap_20_376     ; swap the 5 bytes at $20+ with those at $376+
+ROM:C972 38                          SEC
+ROM:C973 A5 26                       LDA     FKEYPL
+ROM:C975 E9 AA                       SBC     #$AA
+ROM:C977 85 20                       STA     WNDLEFT
+ROM:C979 A5 27                       LDA     FKEYPH
+ROM:C97B E9 00                       SBC     #0
+ROM:C97D 85 21                       STA     WNDWTH
+ROM:C97F 38                          SEC
+ROM:C980 A5 26                       LDA     FKEYPL
+ROM:C982 E9 54                       SBC     #$54 ; 'T'
+ROM:C984
+ROM:C984             loc_C984:                               ; DATA XREF: sub_CBF6:ESCX2+1↓t
+ROM:C984                                                     ; ROM:CC87↓t
+ROM:C984 85 22                       STA     WNDTOP
+ROM:C986 A5 27                       LDA     FKEYPH
+ROM:C988 E9 00                       SBC     #0
+ROM:C98A 85 23                       STA     WNDBTM
+ROM:C98C 18                          CLC
+ROM:C98D A5 26                       LDA     FKEYPL
+ROM:C98F 69 02                       ADC     #2
+ROM:C991 85 24                       STA     CHORIZ
+ROM:C993 A5 27                       LDA     FKEYPH
+ROM:C995 69 00                       ADC     #0
+ROM:C997 85 25                       STA     CVERT
+ROM:C999 A0 AA                       LDY     #$AA
+ROM:C99B
+ROM:C99B             loc_C99B:                               ; CODE XREF: ROM:C9B8↓j
+ROM:C99B BE 56 02                    LDX     $256,Y
+ROM:C99E BD 00 CB                    LDA     byte_CB00,X
+ROM:C9A1 11 20                       ORA     ($20),Y
+ROM:C9A3 91 20                       STA     ($20),Y
+ROM:C9A5 BD 00 CC                    LDA     byte_CC00,X
+ROM:C9A8 11 22                       ORA     ($22),Y
+ROM:C9AA 91 22                       STA     ($22),Y
+ROM:C9AC C0 FE                       CPY     #$FE
+ROM:C9AE B0 07                       BCS     loc_C9B7
+ROM:C9B0 BD 00 CD                    LDA     byte_CD00,X
+ROM:C9B3 11 24                       ORA     ($24),Y
+ROM:C9B5 91 24                       STA     ($24),Y
+ROM:C9B7
+ROM:C9B7             loc_C9B7:                               ; CODE XREF: ROM:C9AE↑j
+ROM:C9B7 C8                          INY
+ROM:C9B8 D0 E1                       BNE     loc_C99B
+ROM:C9BA 20 EE C9                    JSR     swap_20_376     ; swap the 5 bytes at $20+ with those at $376+
+ROM:C9BD A6 2B                       LDX     SBAS2H
+ROM:C9BF 60                          RTS
+ROM:C9C0             ; ---------------------------------------------------------------------------
+ROM:C9C0
+ROM:C9C0             CALC_SLOT:                              ; CODE XREF: ROM:C60E↑p
+ROM:C9C0 A9 4C                       LDA     #$4C ; 'L'      ; Figure out what slot we are running from. Index in Y
+ROM:C9C2 8D 7E 03                    STA     byte_37E        ; 37E = 4C 72 C6  == JMP $C672
+ROM:C9C5 8D A6 03                    STA     byte_3A6        ; 3A6 = 4C 78 C6  == JMP $C678
+ROM:C9C8 A9 72                       LDA     #$72 ; 'r'
+ROM:C9CA 8D 7F 03                    STA     byte_37F
+ROM:C9CD A9 78                       LDA     #$78 ; 'x'
+ROM:C9CF 8D A7 03                    STA     byte_3A7
+ROM:C9D2 BA                          TSX                     ; stack to X
+ROM:C9D3 E8                          INX
+ROM:C9D4 E8                          INX
+ROM:C9D5 BD 00 01                    LDA     $100,X          ; get return address off the stack
+ROM:C9D8 8D 80 03                    STA     byte_380        ; A = C6 (or C5)
+ROM:C9DB 8D A8 03                    STA     byte_3A8
+ROM:C9DE 4A                          LSR     A
+ROM:C9DF 6A                          ROR     A
+ROM:C9E0 6A                          ROR     A
+ROM:C9E1 6A                          ROR     A
+ROM:C9E2 6A                          ROR     A
+ROM:C9E3 69 75                       ADC     #$75 ; 'u'
+ROM:C9E5 A8                          TAY
+ROM:C9E6 8C 98 03                    STY     slot_index
+ROM:C9E9 69 85                       ADC     #$85
+ROM:C9EB 85 2B                       STA     SBAS2H
+ROM:C9ED 60                          RTS
+ROM:C9EE
+ROM:C9EE             ; =============== S U B R O U T I N E =======================================
+ROM:C9EE
+ROM:C9EE             ; swap the 5 bytes at $20+ with those at $376+
+ROM:C9EE
+ROM:C9EE             swap_20_376:                            ; CODE XREF: ROM:loc_C96F↑p
+ROM:C9EE                                                     ; ROM:C9BA↑p
+ROM:C9EE A2 05                       LDX     #5
+ROM:C9F0
+ROM:C9F0             loc_C9F0:                               ; CODE XREF: swap_20_376+F↓j
+ROM:C9F0 B5 20                       LDA     $20,X
+ROM:C9F2 48                          PHA
+ROM:C9F3 BD 76 03                    LDA     unk_376,X
+ROM:C9F6 95 20                       STA     $20,X
+ROM:C9F8 68                          PLA
+ROM:C9F9
+ROM:C9F9             loc_C9F9:
+ROM:C9F9 9D 76 03                    STA     unk_376,X
+ROM:C9FC CA                          DEX
+ROM:C9FD 10 F1                       BPL     loc_C9F0
+ROM:C9FF 60                          RTS
+ROM:C9FF             ; End of function swap_20_376
+ROM:C9FF
+ROM:C9FF             ; ---------------------------------------------------------------------------
+ROM:CA00 FF          byte_CA00:      .BYTE $FF
+ROM:CA01 FF          byte_CA01:      .BYTE $FF               ; CODE XREF: COUT1+1C↓p
+ROM:CA01                                                     ; COUT1:MCOUT4↓p
+ROM:CA02 FF                          .BYTE $FF
+ROM:CA03 FF                          .BYTE $FF
+ROM:CA04 FF                          .BYTE $FF
+ROM:CA05 FF                          .BYTE $FF
+ROM:CA06 FF                          .BYTE $FF
+ROM:CA07 FF                          .BYTE $FF
+ROM:CA08 FF                          .BYTE $FF
+ROM:CA09 FF                          .BYTE $FF
+ROM:CA0A FF                          .BYTE $FF
+ROM:CA0B FF                          .BYTE $FF
+ROM:CA0C FF                          .BYTE $FF
+ROM:CA0D FF                          .BYTE $FF
+ROM:CA0E FF                          .BYTE $FF
+ROM:CA0F FF                          .BYTE $FF
+ROM:CA10 FF                          .BYTE $FF
+ROM:CA11 FF                          .BYTE $FF
+ROM:CA12 FF                          .BYTE $FF
+ROM:CA13 FF                          .BYTE $FF
+ROM:CA14 FF                          .BYTE $FF
+ROM:CA15 FF                          .BYTE $FF
+ROM:CA16 FF                          .BYTE $FF
+ROM:CA17 FF                          .BYTE $FF
+ROM:CA18 FF          unk_CA18:       .BYTE $FF               ; CODE XREF: ENTRY1+3↓j
+ROM:CA18                                                     ; COUT1+10↓p
+ROM:CA19 FF                          .BYTE $FF
+ROM:CA1A FF                          .BYTE $FF
+ROM:CA1B FF                          .BYTE $FF
+ROM:CA1C FF                          .BYTE $FF
+ROM:CA1D FF                          .BYTE $FF
+ROM:CA1E FF                          .BYTE $FF
+ROM:CA1F FF                          .BYTE $FF
+ROM:CA20 FF          byte_CA20:      .BYTE $FF               ; CODE XREF: ROM:FBF7↓j
+ROM:CA21 FF                          .BYTE $FF
+ROM:CA22 FF                          .BYTE $FF
+ROM:CA23 FF                          .BYTE $FF
+ROM:CA24 FF                          .BYTE $FF
+ROM:CA25 FF                          .BYTE $FF
+ROM:CA26 FF                          .BYTE $FF
+ROM:CA27 FF                          .BYTE $FF
+ROM:CA28 FF                          .BYTE $FF
+ROM:CA29 FF                          .BYTE $FF
+ROM:CA2A FF                          .BYTE $FF
+ROM:CA2B FF                          .BYTE $FF
+ROM:CA2C 00                          .BYTE 0
+ROM:CA2D FF                          .BYTE $FF
+ROM:CA2E 04          byte_CA2E:      .BYTE 4                 ; CODE XREF: ROM:FBE7↓j
+ROM:CA2F FF                          .BYTE $FF
+ROM:CA30 FF                          .BYTE $FF
+ROM:CA31 FF                          .BYTE $FF
+ROM:CA32 FF                          .BYTE $FF
+ROM:CA33 FF                          .BYTE $FF
+ROM:CA34 08                          .BYTE   8
+ROM:CA35 FF                          .BYTE $FF
+ROM:CA36 0C                          .BYTE  $C
+ROM:CA37 FF                          .BYTE $FF
+ROM:CA38 FF                          .BYTE $FF
+ROM:CA39 FF                          .BYTE $FF
+ROM:CA3A 10                          .BYTE $10
+ROM:CA3B FF                          .BYTE $FF
+ROM:CA3C 14                          .BYTE $14
+ROM:CA3D FF                          .BYTE $FF
+ROM:CA3E 18                          .BYTE $18
+ROM:CA3F FF                          .BYTE $FF
+ROM:CA40 FF                          .BYTE $FF
+ROM:CA41 FF                          .BYTE $FF
+ROM:CA42 FF                          .BYTE $FF
+ROM:CA43 FF                          .BYTE $FF
+ROM:CA44 FF                          .BYTE $FF
+ROM:CA45 FF                          .BYTE $FF
+ROM:CA46 FF                          .BYTE $FF
+ROM:CA47 FF                          .BYTE $FF
+ROM:CA48 FF                          .BYTE $FF
+ROM:CA49 FF                          .BYTE $FF
+ROM:CA4A FF                          .BYTE $FF
+ROM:CA4B FF                          .BYTE $FF
+ROM:CA4C 1C                          .BYTE $1C
+ROM:CA4D FF                          .BYTE $FF
+ROM:CA4E 20                          .BYTE $20
+ROM:CA4F FF                          .BYTE $FF
+ROM:CA50 FF                          .BYTE $FF
+ROM:CA51 FF                          .BYTE $FF
+ROM:CA52 FF                          .BYTE $FF
+ROM:CA53 FF                          .BYTE $FF
+ROM:CA54 FF          unk_CA54:       .BYTE $FF               ; CODE XREF: ROM:FC13↓j
+ROM:CA55 FF                          .BYTE $FF
+ROM:CA56 24                          .BYTE $24
+ROM:CA57 FF                          .BYTE $FF
+ROM:CA58 28                          .BYTE $28
+ROM:CA59 FF                          .BYTE $FF
+ROM:CA5A 2C                          .BYTE $2C
+ROM:CA5B FF                          .BYTE $FF
+ROM:CA5C 30                          .BYTE $30 ; 0
+ROM:CA5D FF                          .BYTE $FF
+ROM:CA5E 34          byte_CA5E:      .BYTE $34               ; CODE XREF: ROM:FC1D↓j
+ROM:CA5F FF                          .BYTE $FF
+ROM:CA60 FF                          .BYTE $FF
+ROM:CA61 FF                          .BYTE $FF
+ROM:CA62 FF                          .BYTE $FF
+ROM:CA63 FF                          .BYTE $FF
+ROM:CA64 38                          .BYTE $38 ; 8
+ROM:CA65 FF                          .BYTE $FF
+ROM:CA66 3C                          .BYTE $3C
+ROM:CA67 FF                          .BYTE $FF
+ROM:CA68 40                          .BYTE $40 ; @
+ROM:CA69 FF                          .BYTE $FF
+ROM:CA6A 44                          .BYTE $44 ; D
+ROM:CA6B FF                          .BYTE $FF
+ROM:CA6C 48                          .BYTE $48 ; H
+ROM:CA6D FF                          .BYTE $FF
+ROM:CA6E 4C                          .BYTE $4C
+ROM:CA6F FF                          .BYTE $FF
+ROM:CA70 FF                          .BYTE $FF
+ROM:CA71 FF                          .BYTE $FF
+ROM:CA72 50                          .BYTE $50
+ROM:CA73 FF                          .BYTE $FF
+ROM:CA74 54                          .BYTE $54
+ROM:CA75 FF                          .BYTE $FF
+ROM:CA76             ; START OF FUNCTION CHUNK FOR F8HOME
+ROM:CA76 58          byte_CA76:      .BYTE $58               ; CODE XREF: F8HOME+3↓j
+ROM:CA77 FF                          .BYTE $FF
+ROM:CA78 5C                          .BYTE $5C ; \
+ROM:CA79 FF                          .BYTE $FF
+ROM:CA7A 60                          .BYTE $60 ; `
+ROM:CA7B FF                          .BYTE $FF
+ROM:CA7C 64                          .BYTE $64
+ROM:CA7D FF                          .BYTE $FF
+ROM:CA7E 68                          .BYTE $68
+ROM:CA7F FF          byte_CA7F:      .BYTE $FF               ; CODE XREF: ROM:FC45↓j
+ROM:CA80 FF                          .BYTE $FF
+ROM:CA81 FF                          .BYTE $FF
+ROM:CA82 FF                          .BYTE $FF
+ROM:CA83 FF                          .BYTE $FF
+ROM:CA84 FF                          .BYTE $FF
+ROM:CA85 FF                          .BYTE $FF
+ROM:CA86 FF                          .BYTE $FF
+ROM:CA87 FF                          .BYTE $FF
+ROM:CA88 FF                          .BYTE $FF
+ROM:CA89 FF                          .BYTE $FF
+ROM:CA8A FF                          .BYTE $FF
+ROM:CA8B FF                          .BYTE $FF
+ROM:CA8C FF                          .BYTE $FF
+ROM:CA8D FF                          .BYTE $FF
+ROM:CA8E FF                          .BYTE $FF
+ROM:CA8F FF                          .BYTE $FF
+ROM:CA90 FF                          .BYTE $FF
+ROM:CA91 FF                          .BYTE $FF
+ROM:CA92 FF                          .BYTE $FF
+ROM:CA93 FF                          .BYTE $FF
+ROM:CA94 FF                          .BYTE $FF
+ROM:CA95 FF                          .BYTE $FF
+ROM:CA96 6C                          .BYTE $6C ; l
+ROM:CA96             ; END OF FUNCTION CHUNK FOR F8HOME
+ROM:CA97 FF          byte_CA97:      .BYTE $FF               ; CODE XREF: GETLN+39↓p
+ROM:CA98 FF                          .BYTE $FF
+ROM:CA99 FF                          .BYTE $FF               ; CODE XREF: ROM:FCA1↓j
+ROM:CA9A 70                          .BYTE $70
+ROM:CA9B FF                          .BYTE $FF
+ROM:CA9C 74                          .BYTE $74
+ROM:CA9D FF                          .BYTE $FF
+ROM:CA9E 78                          .BYTE $78
+ROM:CA9F FF                          .BYTE $FF
+ROM:CAA0 FF                          .BYTE $FF
+ROM:CAA1 FF                          .BYTE $FF
+ROM:CAA2 FF                          .BYTE $FF
+ROM:CAA3 FF                          .BYTE $FF
+ROM:CAA4             ; START OF FUNCTION CHUNK FOR ENTRY2
+ROM:CAA4 FF          byte_CAA4:      .BYTE $FF               ; CODE XREF: ENTRY2+3↓j
+ROM:CAA5 FF                          .BYTE $FF
+ROM:CAA6 7C                          .BYTE $7C ; |
+ROM:CAA7 FF          byte_CAA7:      .BYTE $FF               ; CODE XREF: ROM:FC69↓j
+ROM:CAA8 FF                          .BYTE $FF
+ROM:CAA9 FF                          .BYTE $FF
+ROM:CAAA FF                          .BYTE $FF
+ROM:CAAB FF                          .BYTE $FF
+ROM:CAAC 80                          .BYTE $80
+ROM:CAAD FF                          .BYTE $FF
+ROM:CAAE 84                          .BYTE $84
+ROM:CAAF FF                          .BYTE $FF
+ROM:CAAF             ; END OF FUNCTION CHUNK FOR ENTRY2
+ROM:CAB0 FF                          .BYTE $FF
+ROM:CAB1 FF                          .BYTE $FF
+ROM:CAB2 88                          .BYTE $88
+ROM:CAB3 FF                          .BYTE $FF
+ROM:CAB4 8C                          .BYTE $8C
+ROM:CAB5 FF                          .BYTE $FF
+ROM:CAB6 90                          .BYTE $90
+ROM:CAB7 FF                          .BYTE $FF
+ROM:CAB8 94                          .BYTE $94
+ROM:CAB9 FF                          .BYTE $FF
+ROM:CABA 98                          .BYTE $98
+ROM:CABB FF                          .BYTE $FF
+ROM:CABC 9C                          .BYTE $9C
+ROM:CABD FF                          .BYTE $FF
+ROM:CABE A0                          .BYTE $A0
+ROM:CABF FF                          .BYTE $FF
+ROM:CAC0 FF                          .BYTE $FF
+ROM:CAC1 FF                          .BYTE $FF
+ROM:CAC2 FF                          .BYTE $FF
+ROM:CAC3 FF                          .BYTE $FF
+ROM:CAC4 FF                          .BYTE $FF
+ROM:CAC5 FF                          .BYTE $FF
+ROM:CAC6 FF                          .BYTE $FF
+ROM:CAC7 FF                          .BYTE $FF
+ROM:CAC8 FF                          .BYTE $FF
+ROM:CAC9 FF                          .BYTE $FF
+ROM:CACA A4                          .BYTE $A4
+ROM:CACB FF                          .BYTE $FF
+ROM:CACC A8                          .BYTE $A8
+ROM:CACD FF                          .BYTE $FF
+ROM:CACE AC                          .BYTE $AC
+ROM:CACF FF                          .BYTE $FF
+ROM:CAD0 FF                          .BYTE $FF
+ROM:CAD1 FF                          .BYTE $FF
+ROM:CAD2 B0                          .BYTE $B0
+ROM:CAD3 FF                          .BYTE $FF
+ROM:CAD4 B4                          .BYTE $B4
+ROM:CAD5 FF                          .BYTE $FF
+ROM:CAD6 B8                          .BYTE $B8
+ROM:CAD7 FF                          .BYTE $FF
+ROM:CAD8 BC                          .BYTE $BC
+ROM:CAD9 FF                          .BYTE $FF
+ROM:CADA C0                          .BYTE $C0
+ROM:CADB FF                          .BYTE $FF
+ROM:CADC C4                          .BYTE $C4
+ROM:CADD FF                          .BYTE $FF
+ROM:CADE C8                          .BYTE $C8
+ROM:CADF FF                          .BYTE $FF
+ROM:CAE0 FF                          .BYTE $FF
+ROM:CAE1 FF                          .BYTE $FF
+ROM:CAE2 FF                          .BYTE $FF
+ROM:CAE3 FF                          .BYTE $FF
+ROM:CAE4 CC                          .BYTE $CC
+ROM:CAE5 FF                          .BYTE $FF
+ROM:CAE6 D0                          .BYTE $D0
+ROM:CAE7 FF                          .BYTE $FF
+ROM:CAE8 D4                          .BYTE $D4
+ROM:CAE9 FF                          .BYTE $FF
+ROM:CAEA D8                          .BYTE $D8
+ROM:CAEB FF                          .BYTE $FF
+ROM:CAEC DC                          .BYTE $DC
+ROM:CAED FF                          .BYTE $FF
+ROM:CAEE E0                          .BYTE $E0
+ROM:CAEF FF                          .BYTE $FF
+ROM:CAF0 FF                          .BYTE $FF
+ROM:CAF1 FF                          .BYTE $FF
+ROM:CAF2 E4                          .BYTE $E4
+ROM:CAF3 FF                          .BYTE $FF
+ROM:CAF4 E8                          .BYTE $E8
+ROM:CAF5 FF                          .BYTE $FF
+ROM:CAF6 EC                          .BYTE $EC
+ROM:CAF7 FF                          .BYTE $FF
+ROM:CAF8 F0                          .BYTE $F0
+ROM:CAF9 FF                          .BYTE $FF
+ROM:CAFA F4                          .BYTE $F4
+ROM:CAFB FF                          .BYTE $FF
+ROM:CAFC F8                          .BYTE $F8
+ROM:CAFD FF                          .BYTE $FF
+ROM:CAFE FC                          .BYTE $FC
+ROM:CAFF FF                          .BYTE $FF
+ROM:CB00 00          byte_CB00:      .BYTE 0
+ROM:CB01 FF                          .BYTE $FF
+ROM:CB02 FF                          .BYTE $FF
+ROM:CB03 FF                          .BYTE $FF
+ROM:CB04 02                          .BYTE   2
+ROM:CB05 FF                          .BYTE $FF
+ROM:CB06 FF                          .BYTE $FF
+ROM:CB07 FF                          .BYTE $FF
+ROM:CB08 01                          .BYTE   1
+ROM:CB09 FF                          .BYTE $FF
+ROM:CB0A FF                          .BYTE $FF
+ROM:CB0B FF                          .BYTE $FF
+ROM:CB0C 03                          .BYTE 3
+ROM:CB0D FF                          .BYTE $FF
+ROM:CB0E FF                          .BYTE $FF
+ROM:CB0F FF                          .BYTE $FF
+ROM:CB10 00                          .BYTE   0
+ROM:CB11 FF                          .BYTE $FF
+ROM:CB12 FF                          .BYTE $FF
+ROM:CB13 FF                          .BYTE $FF
+ROM:CB14 02                          .BYTE   2
+ROM:CB15 FF                          .BYTE $FF
+ROM:CB16 FF                          .BYTE $FF
+ROM:CB17 FF                          .BYTE $FF
+ROM:CB18 01                          .BYTE   1
+ROM:CB19 FF                          .BYTE $FF
+ROM:CB1A FF                          .BYTE $FF
+ROM:CB1B FF                          .BYTE $FF
+ROM:CB1C 03                          .BYTE   3
+ROM:CB1D FF                          .BYTE $FF
+ROM:CB1E FF                          .BYTE $FF
+ROM:CB1F FF                          .BYTE $FF
+ROM:CB20 00                          .BYTE   0
+ROM:CB21 FF                          .BYTE $FF
+ROM:CB22 FF                          .BYTE $FF
+ROM:CB23 FF                          .BYTE $FF
+ROM:CB24 02                          .BYTE   2
+ROM:CB25 FF                          .BYTE $FF
+ROM:CB26 FF                          .BYTE $FF
+ROM:CB27 FF                          .BYTE $FF
+ROM:CB28 01                          .BYTE 1
+ROM:CB29 FF                          .BYTE $FF
+ROM:CB2A FF                          .BYTE $FF
+ROM:CB2B FF                          .BYTE $FF
+ROM:CB2C 03                          .BYTE   3
+ROM:CB2D FF                          .BYTE $FF
+ROM:CB2E FF                          .BYTE $FF
+ROM:CB2F FF                          .BYTE $FF
+ROM:CB30 00                          .BYTE 0
+ROM:CB31 FF                          .BYTE $FF
+ROM:CB32 FF                          .BYTE $FF
+ROM:CB33 FF                          .BYTE $FF
+ROM:CB34 02                          .BYTE   2
+ROM:CB35 FF                          .BYTE $FF
+ROM:CB36 FF                          .BYTE $FF
+ROM:CB37 FF                          .BYTE $FF
+ROM:CB38 01                          .BYTE   1
+ROM:CB39 FF                          .BYTE $FF
+ROM:CB3A FF                          .BYTE $FF
+ROM:CB3B FF                          .BYTE $FF
+ROM:CB3C 03                          .BYTE   3
+ROM:CB3D FF                          .BYTE $FF
+ROM:CB3E FF                          .BYTE $FF
+ROM:CB3F FF                          .BYTE $FF
+ROM:CB40 00                          .BYTE   0
+ROM:CB41 FF          unk_CB41:       .BYTE $FF               ; CODE XREF: ROM:FBC4↓j
+ROM:CB41                                                     ; MVTAB+5↓j
+ROM:CB42 FF                          .BYTE $FF
+ROM:CB43 FF                          .BYTE $FF
+ROM:CB44 02                          .BYTE   2
+ROM:CB45 FF                          .BYTE $FF
+ROM:CB46 FF                          .BYTE $FF
+ROM:CB47 FF                          .BYTE $FF
+ROM:CB48 01                          .BYTE   1
+ROM:CB49 FF                          .BYTE $FF
+ROM:CB4A FF                          .BYTE $FF
+ROM:CB4B FF                          .BYTE $FF
+ROM:CB4C 03                          .BYTE   3
+ROM:CB4D FF                          .BYTE $FF
+ROM:CB4E FF                          .BYTE $FF
+ROM:CB4F FF                          .BYTE $FF
+ROM:CB50 00                          .BYTE   0
+ROM:CB51 FF                          .BYTE $FF
+ROM:CB52 FF                          .BYTE $FF
+ROM:CB53 FF                          .BYTE $FF
+ROM:CB54 02                          .BYTE   2
+ROM:CB55 FF                          .BYTE $FF
+ROM:CB56 FF                          .BYTE $FF
+ROM:CB57 FF                          .BYTE $FF
+ROM:CB58 01                          .BYTE   1
+ROM:CB59 FF                          .BYTE $FF
+ROM:CB5A FF                          .BYTE $FF
+ROM:CB5B FF                          .BYTE $FF
+ROM:CB5C 03                          .BYTE 3
+ROM:CB5D FF                          .BYTE $FF
+ROM:CB5E FF                          .BYTE $FF
+ROM:CB5F FF                          .BYTE $FF
+ROM:CB60 00                          .BYTE   0
+ROM:CB61 FF                          .BYTE $FF
+ROM:CB62 FF                          .BYTE $FF
+ROM:CB63 FF                          .BYTE $FF
+ROM:CB64 02                          .BYTE   2
+ROM:CB65 FF                          .BYTE $FF
+ROM:CB66 FF                          .BYTE $FF
+ROM:CB67 FF                          .BYTE $FF
+ROM:CB68 01                          .BYTE 1
+ROM:CB69 FF                          .BYTE $FF
+ROM:CB6A FF                          .BYTE $FF
+ROM:CB6B FF                          .BYTE $FF
+ROM:CB6C 03                          .BYTE   3
+ROM:CB6D FF                          .BYTE $FF
+ROM:CB6E FF                          .BYTE $FF
+ROM:CB6F FF                          .BYTE $FF
+ROM:CB70 00                          .BYTE 0
+ROM:CB71 FF                          .BYTE $FF
+ROM:CB72 FF                          .BYTE $FF
+ROM:CB73 FF                          .BYTE $FF
+ROM:CB74 02                          .BYTE   2
+ROM:CB75 FF                          .BYTE $FF
+ROM:CB76 FF                          .BYTE $FF
+ROM:CB77 FF                          .BYTE $FF
+ROM:CB78 01                          .BYTE 1
+ROM:CB79 FF                          .BYTE $FF
+ROM:CB7A FF                          .BYTE $FF
+ROM:CB7B FF                          .BYTE $FF
+ROM:CB7C 03                          .BYTE   3
+ROM:CB7D FF                          .BYTE $FF
+ROM:CB7E FF                          .BYTE $FF
+ROM:CB7F FF                          .BYTE $FF
+ROM:CB80 00                          .BYTE   0
+ROM:CB81
+ROM:CB81             ; =============== S U B R O U T I N E =======================================
+ROM:CB81
+ROM:CB81
+ROM:CB81             sub_CB81:
+ROM:CB81 FF FF FF                    ISB     $FFFF,X
+ROM:CB81             ; ---------------------------------------------------------------------------
+ROM:CB84 02                          .BYTE   2
+ROM:CB85             ; ---------------------------------------------------------------------------
+ROM:CB85 FF FF FF                    ISB     $FFFF,X
+ROM:CB85             ; ---------------------------------------------------------------------------
+ROM:CB88 01                          .BYTE   1
+ROM:CB89             ; ---------------------------------------------------------------------------
+ROM:CB89 FF FF FF                    ISB     $FFFF,X
+ROM:CB8C 03 FF                       SLO     ($FF,X)
+ROM:CB8C             ; End of function sub_CB81
+ROM:CB8C
+ROM:CB8E
+ROM:CB8E             ; =============== S U B R O U T I N E =======================================
+ROM:CB8E
+ROM:CB8E
+ROM:CB8E             sub_CB8E:
+ROM:CB8E FF FF 00                    ISB     $FF,X
+ROM:CB91 FF FF FF                    ISB     65535,X
+ROM:CB91             ; ---------------------------------------------------------------------------
+ROM:CB94 02                          .BYTE   2
+ROM:CB95 FF                          .BYTE $FF
+ROM:CB96 FF                          .BYTE $FF
+ROM:CB97             ; ---------------------------------------------------------------------------
+ROM:CB97 FF 01 FF                    ISB     $FF01,X
+ROM:CB9A FF FF 03                    ISB     $3FF,X
+ROM:CB9A             ; ---------------------------------------------------------------------------
+ROM:CB9D FF                          .BYTE $FF
+ROM:CB9E             ; ---------------------------------------------------------------------------
+ROM:CB9E FF FF 00                    ISB     $FF,X           ; CODE XREF: GETLN-380↓p
+ROM:CB9E                                                     ; RDKEY+3↓p
+ROM:CB9E             ; End of function sub_CB8E
+ROM:CB9E
+ROM:CBA1 FF FF FF                    ISB     $FFFF,X
+ROM:CBA1             ; ---------------------------------------------------------------------------
+ROM:CBA4 02                          .BYTE   2
+ROM:CBA5 FF                          .BYTE $FF
+ROM:CBA6             ; ---------------------------------------------------------------------------
+ROM:CBA6 FF FF 01                    ISB     $1FF,X
+ROM:CBA6             ; ---------------------------------------------------------------------------
+ROM:CBA9 FF                          .BYTE $FF
+ROM:CBAA FF                          .BYTE $FF
+ROM:CBAB FF 03 FF                    ISB     $FF03,X
+ROM:CBAE FF FF 00                    ISB     $FF,X
+ROM:CBAE             ; ---------------------------------------------------------------------------
+ROM:CBB1 FF                          .BYTE $FF
+ROM:CBB2             ; ---------------------------------------------------------------------------
+ROM:CBB2 FF FF 02                    ISB     $2FF,X
+ROM:CBB5 FF FF FF                    ISB     $FFFF,X
+ROM:CBB8 01 FF                       ORA     ($FF,X)
+ROM:CBB8             ; ---------------------------------------------------------------------------
+ROM:CBBA FF                          .BYTE $FF
+ROM:CBBB FF 03 FF                    ISB     $FF03,X
+ROM:CBBE FF FF 00                    ISB     $FF,X
+ROM:CBBE             ; ---------------------------------------------------------------------------
+ROM:CBC1 FF                          .BYTE $FF
+ROM:CBC2
+ROM:CBC2             ; =============== S U B R O U T I N E =======================================
+ROM:CBC2
+ROM:CBC2
+ROM:CBC2             sub_CBC2:
+ROM:CBC2 FF FF 02                    ISB     $2FF,X
+ROM:CBC5 FF FF FF                    ISB     off_FFFE+1,X
+ROM:CBC8 01 FF                       ORA     ($FF,X)
+ROM:CBCA FF FF 03                    ISB     $3FF,X          ; two kinds of cursor
+ROM:CBCD FF FF FF                    ISB     $FFFF,X
+ROM:CBD0 00                          BRK
+ROM:CBD0             ; ---------------------------------------------------------------------------
+ROM:CBD1 FF                          .BYTE $FF
+ROM:CBD2             ; ---------------------------------------------------------------------------
+ROM:CBD2 FF FF 02                    ISB     $2FF,X
+ROM:CBD5 FF FF FF                    ISB     $FFFF,X
+ROM:CBD8 01 FF                       ORA     ($FF,X)
+ROM:CBD8             ; ---------------------------------------------------------------------------
+ROM:CBDA FF                          .BYTE $FF
+ROM:CBDB FF                          .BYTE $FF
+ROM:CBDC             ; ---------------------------------------------------------------------------
+ROM:CBDC 03 FF                       SLO     ($FF,X)
+ROM:CBDC             ; ---------------------------------------------------------------------------
+ROM:CBDE FF                          .BYTE $FF
+ROM:CBDE             ; End of function sub_CBC2
+ROM:CBDE
+ROM:CBDF
+ROM:CBDF             ; =============== S U B R O U T I N E =======================================
+ROM:CBDF
+ROM:CBDF
+ROM:CBDF             sub_CBDF:                               ; CODE XREF: GETLN-37D↓p
+ROM:CBDF                                                     ; ROM:FD23↓p
+ROM:CBDF FF 00 FF                    ISB     $FF00,X
+ROM:CBE2 FF FF 02                    ISB     $2FF,X
+ROM:CBE2             ; ---------------------------------------------------------------------------
+ROM:CBE5 FF                          .BYTE $FF
+ROM:CBE6             ; ---------------------------------------------------------------------------
+ROM:CBE6 FF FF 01                    ISB     $1FF,X
+ROM:CBE9 FF FF FF                    ISB     $FFFF,X
+ROM:CBE9             ; End of function sub_CBDF
+ROM:CBE9
+ROM:CBEC             ; START OF FUNCTION CHUNK FOR sub_CBF6
+ROM:CBEC
+ROM:CBEC             ESCX2:
+ROM:CBEC 03 FF                       SLO     ($FF,X)
+ROM:CBEC             ; ---------------------------------------------------------------------------
+ROM:CBEE FF                          .BYTE $FF
+ROM:CBEF FF                          .BYTE $FF
+ROM:CBF0             ; ---------------------------------------------------------------------------
+ROM:CBF0 00                          BRK
+ROM:CBF0             ; ---------------------------------------------------------------------------
+ROM:CBF1 FF                          .BYTE $FF
+ROM:CBF2 FF                          .BYTE $FF
+ROM:CBF3 FF 02 FF                    ISB     $FF02,X
+ROM:CBF3             ; END OF FUNCTION CHUNK FOR sub_CBF6
+ROM:CBF6
+ROM:CBF6             ; =============== S U B R O U T I N E =======================================
+ROM:CBF6
+ROM:CBF6
+ROM:CBF6             sub_CBF6:                               ; CODE XREF: MRDKEY_PATCH+2A32↓p
+ROM:CBF6
+ROM:CBF6             ; FUNCTION CHUNK AT ROM:CBEC SIZE 0000000A BYTES
+ROM:CBF6
+ROM:CBF6 FF FF 01                    ISB     $1FF,X
+ROM:CBF6             ; ---------------------------------------------------------------------------
+ROM:CBF9 FF                          .BYTE $FF
+ROM:CBFA FF                          .BYTE $FF
+ROM:CBFB FF                          .BYTE $FF
+ROM:CBFC 03                          .BYTE   3
+ROM:CBFD FF                          .BYTE $FF
+ROM:CBFD             ; End of function sub_CBF6
+ROM:CBFD
+ROM:CBFE FF                          .BYTE $FF
+ROM:CBFF FF                          .BYTE $FF
+ROM:CC00 00          byte_CC00:      .BYTE 0
+ROM:CC01 FF                          .BYTE $FF
+ROM:CC02 FF                          .BYTE $FF
+ROM:CC03 FF                          .BYTE $FF
+ROM:CC04 00                          .BYTE   0
+ROM:CC05 FF                          .BYTE $FF
+ROM:CC06 FF                          .BYTE $FF
+ROM:CC07 FF                          .BYTE $FF
+ROM:CC08 00                          .BYTE 0
+ROM:CC09 FF                          .BYTE $FF
+ROM:CC0A FF                          .BYTE $FF
+ROM:CC0B FF                          .BYTE $FF
+ROM:CC0C 00                          .BYTE 0
+ROM:CC0D FF          unk_CC0D:       .BYTE $FF               ; CODE XREF: FRAMOI+3↓j
+ROM:CC0E FF                          .BYTE $FF
+ROM:CC0F FF                          .BYTE $FF
+ROM:CC10 02                          .BYTE   2
+ROM:CC11 FF                          .BYTE $FF
+ROM:CC12 FF                          .BYTE $FF
+ROM:CC13 FF                          .BYTE $FF
+ROM:CC14 02                          .BYTE   2
+ROM:CC15 FF                          .BYTE $FF
+ROM:CC16 FF                          .BYTE $FF
+ROM:CC17             ; START OF FUNCTION CHUNK FOR FRAMOU
+ROM:CC17 FF          byte_CC17:      .BYTE $FF               ; CODE XREF: FRAMOU+3↓j
+ROM:CC18 02                          .BYTE 2
+ROM:CC19 FF                          .BYTE $FF
+ROM:CC1A FF                          .BYTE $FF
+ROM:CC1B FF                          .BYTE $FF
+ROM:CC1C 02                          .BYTE   2
+ROM:CC1D FF                          .BYTE $FF
+ROM:CC1E FF                          .BYTE $FF
+ROM:CC1F FF                          .BYTE $FF
+ROM:CC20 01                          .BYTE 1
+ROM:CC21 FF                          .BYTE $FF
+ROM:CC22 FF                          .BYTE $FF
+ROM:CC23 FF                          .BYTE $FF
+ROM:CC24 01                          .BYTE   1
+ROM:CC24             ; END OF FUNCTION CHUNK FOR FRAMOU
+ROM:CC25 FF                          .BYTE $FF
+ROM:CC26 FF                          .BYTE $FF
+ROM:CC27 FF                          .BYTE $FF
+ROM:CC28 01                          .BYTE   1
+ROM:CC29 FF                          .BYTE $FF
+ROM:CC2A FF                          .BYTE $FF
+ROM:CC2B FF                          .BYTE $FF
+ROM:CC2C 01                          .BYTE   1
+ROM:CC2D FF                          .BYTE $FF
+ROM:CC2E FF                          .BYTE $FF
+ROM:CC2F FF                          .BYTE $FF
+ROM:CC30 03                          .BYTE 3
+ROM:CC31 FF                          .BYTE $FF
+ROM:CC32 FF                          .BYTE $FF
+ROM:CC33 FF                          .BYTE $FF
+ROM:CC34 03                          .BYTE   3
+ROM:CC35 FF                          .BYTE $FF
+ROM:CC36 FF                          .BYTE $FF
+ROM:CC37 FF                          .BYTE $FF
+ROM:CC38 03                          .BYTE   3
+ROM:CC39 FF                          .BYTE $FF
+ROM:CC3A FF                          .BYTE $FF
+ROM:CC3B FF                          .BYTE $FF
+ROM:CC3C 03                          .BYTE   3
+ROM:CC3D FF                          .BYTE $FF
+ROM:CC3E FF                          .BYTE $FF
+ROM:CC3F FF                          .BYTE $FF
+ROM:CC40 00                          .BYTE   0
+ROM:CC41 FF                          .BYTE $FF
+ROM:CC42 FF                          .BYTE $FF
+ROM:CC43 FF                          .BYTE $FF
+ROM:CC44 00                          .BYTE 0
+ROM:CC45 FF                          .BYTE $FF
+ROM:CC46 FF                          .BYTE $FF
+ROM:CC47 FF                          .BYTE $FF
+ROM:CC48 00                          .BYTE   0
+ROM:CC49 FF                          .BYTE $FF
+ROM:CC4A FF                          .BYTE $FF
+ROM:CC4B FF                          .BYTE $FF
+ROM:CC4C 00                          .BYTE   0
+ROM:CC4D FF                          .BYTE $FF
+ROM:CC4E FF                          .BYTE $FF
+ROM:CC4F FF                          .BYTE $FF
+ROM:CC50 02                          .BYTE   2
+ROM:CC51 FF                          .BYTE $FF
+ROM:CC52 FF                          .BYTE $FF
+ROM:CC53 FF                          .BYTE $FF
+ROM:CC54 02                          .BYTE   2
+ROM:CC55 FF                          .BYTE $FF
+ROM:CC56 FF                          .BYTE $FF
+ROM:CC57 FF                          .BYTE $FF
+ROM:CC58 02                          .BYTE   2
+ROM:CC59 FF                          .BYTE $FF
+ROM:CC5A FF                          .BYTE $FF
+ROM:CC5B FF                          .BYTE $FF
+ROM:CC5C 02                          .BYTE   2
+ROM:CC5D FF                          .BYTE $FF
+ROM:CC5E FF                          .BYTE $FF
+ROM:CC5F FF                          .BYTE $FF
+ROM:CC60 01                          .BYTE   1
+ROM:CC61 FF                          .BYTE $FF
+ROM:CC62 FF                          .BYTE $FF
+ROM:CC63 FF                          .BYTE $FF
+ROM:CC64 01                          .BYTE   1
+ROM:CC65 FF                          .BYTE $FF
+ROM:CC66 FF                          .BYTE $FF
+ROM:CC67 FF                          .BYTE $FF
+ROM:CC68 01                          .BYTE 1
+ROM:CC69 FF                          .BYTE $FF
+ROM:CC6A FF                          .BYTE $FF
+ROM:CC6B FF                          .BYTE $FF
+ROM:CC6C 01                          .BYTE   1
+ROM:CC6D FF                          .BYTE $FF
+ROM:CC6E FF                          .BYTE $FF
+ROM:CC6F FF                          .BYTE $FF
+ROM:CC70 03                          .BYTE   3
+ROM:CC71 FF                          .BYTE $FF
+ROM:CC72 FF                          .BYTE $FF
+ROM:CC73 FF                          .BYTE $FF
+ROM:CC74 03                          .BYTE   3
+ROM:CC75 FF                          .BYTE $FF
+ROM:CC76 FF                          .BYTE $FF
+ROM:CC77 FF                          .BYTE $FF
+ROM:CC78 03                          .BYTE 3
+ROM:CC79 FF                          .BYTE $FF
+ROM:CC7A FF                          .BYTE $FF
+ROM:CC7B FF                          .BYTE $FF
+ROM:CC7C 03                          .BYTE   3
+ROM:CC7D FF                          .BYTE $FF
+ROM:CC7E FF                          .BYTE $FF
+ROM:CC7F FF                          .BYTE $FF
+ROM:CC80 00                          .BYTE 0
+ROM:CC81 FF                          .BYTE $FF
+ROM:CC82 FF                          .BYTE $FF
+ROM:CC83 FF                          .BYTE $FF
+ROM:CC84 00                          .BYTE 0
+ROM:CC85 FF                          .BYTE $FF
+ROM:CC86 FF                          .BYTE $FF
+ROM:CC87 FF                          .BYTE $FF
+ROM:CC88 00                          .BYTE   0
+ROM:CC89 FF                          .BYTE $FF
+ROM:CC8A FF                          .BYTE $FF
+ROM:CC8B FF                          .BYTE $FF
+ROM:CC8C 00                          .BYTE   0
+ROM:CC8D FF                          .BYTE $FF
+ROM:CC8E FF                          .BYTE $FF
+ROM:CC8F FF                          .BYTE $FF
+ROM:CC90 02                          .BYTE   2
+ROM:CC91 FF                          .BYTE $FF
+ROM:CC92 FF                          .BYTE $FF
+ROM:CC93 FF                          .BYTE $FF
+ROM:CC94 02                          .BYTE   2
+ROM:CC95 FF                          .BYTE $FF
+ROM:CC96 FF                          .BYTE $FF
+ROM:CC97 FF                          .BYTE $FF
+ROM:CC98 02                          .BYTE   2
+ROM:CC99 FF                          .BYTE $FF
+ROM:CC9A FF                          .BYTE $FF
+ROM:CC9B FF                          .BYTE $FF
+ROM:CC9C 02                          .BYTE   2
+ROM:CC9D FF                          .BYTE $FF
+ROM:CC9E FF                          .BYTE $FF
+ROM:CC9F FF                          .BYTE $FF
+ROM:CCA0 01                          .BYTE   1
+ROM:CCA1 FF                          .BYTE $FF
+ROM:CCA2 FF                          .BYTE $FF
+ROM:CCA3 FF                          .BYTE $FF
+ROM:CCA4 01                          .BYTE   1
+ROM:CCA5 FF                          .BYTE $FF
+ROM:CCA6 FF                          .BYTE $FF
+ROM:CCA7 FF                          .BYTE $FF
+ROM:CCA8 01                          .BYTE   1
+ROM:CCA9 FF                          .BYTE $FF
+ROM:CCAA FF                          .BYTE $FF
+ROM:CCAB FF                          .BYTE $FF
+ROM:CCAC 01                          .BYTE   1
+ROM:CCAD FF                          .BYTE $FF
+ROM:CCAE FF                          .BYTE $FF
+ROM:CCAF FF                          .BYTE $FF
+ROM:CCB0 03                          .BYTE 3
+ROM:CCB1 FF                          .BYTE $FF
+ROM:CCB2 FF                          .BYTE $FF
+ROM:CCB3 FF                          .BYTE $FF
+ROM:CCB4 03                          .BYTE   3
+ROM:CCB5 FF                          .BYTE $FF
+ROM:CCB6 FF                          .BYTE $FF
+ROM:CCB7 FF                          .BYTE $FF
+ROM:CCB8 03                          .BYTE 3
+ROM:CCB9 FF                          .BYTE $FF
+ROM:CCBA FF                          .BYTE $FF
+ROM:CCBB FF                          .BYTE $FF
+ROM:CCBC 03                          .BYTE   3
+ROM:CCBD FF                          .BYTE $FF
+ROM:CCBE FF                          .BYTE $FF
+ROM:CCBF FF                          .BYTE $FF
+ROM:CCC0 00                          .BYTE 0
+ROM:CCC1 FF                          .BYTE $FF
+ROM:CCC2 FF                          .BYTE $FF
+ROM:CCC3 FF                          .BYTE $FF
+ROM:CCC4 00                          .BYTE 0
+ROM:CCC5 FF                          .BYTE $FF
+ROM:CCC6 FF                          .BYTE $FF
+ROM:CCC7 FF                          .BYTE $FF
+ROM:CCC8 00                          .BYTE   0
+ROM:CCC9 FF                          .BYTE $FF
+ROM:CCCA FF                          .BYTE $FF
+ROM:CCCB FF                          .BYTE $FF
+ROM:CCCC 00                          .BYTE   0
+ROM:CCCD FF                          .BYTE $FF
+ROM:CCCE FF                          .BYTE $FF
+ROM:CCCF FF                          .BYTE $FF
+ROM:CCD0 02                          .BYTE   2
+ROM:CCD1 FF                          .BYTE $FF
+ROM:CCD2 FF                          .BYTE $FF
+ROM:CCD3 FF                          .BYTE $FF
+ROM:CCD4 02                          .BYTE   2
+ROM:CCD5 FF                          .BYTE $FF
+ROM:CCD6 FF                          .BYTE $FF
+ROM:CCD7 FF                          .BYTE $FF
+ROM:CCD8 02                          .BYTE   2
+ROM:CCD9 FF                          .BYTE $FF
+ROM:CCDA FF                          .BYTE $FF
+ROM:CCDB FF                          .BYTE $FF
+ROM:CCDC 02                          .BYTE   2
+ROM:CCDD FF                          .BYTE $FF
+ROM:CCDE FF                          .BYTE $FF
+ROM:CCDF FF                          .BYTE $FF
+ROM:CCE0 01                          .BYTE   1
+ROM:CCE1 FF                          .BYTE $FF
+ROM:CCE2 FF                          .BYTE $FF
+ROM:CCE3 FF                          .BYTE $FF
+ROM:CCE4 01                          .BYTE 1
+ROM:CCE5 FF                          .BYTE $FF
+ROM:CCE6 FF                          .BYTE $FF
+ROM:CCE7 FF                          .BYTE $FF
+ROM:CCE8 01                          .BYTE   1
+ROM:CCE9 FF                          .BYTE $FF
+ROM:CCEA FF                          .BYTE $FF
+ROM:CCEB FF                          .BYTE $FF
+ROM:CCEC 01                          .BYTE   1
+ROM:CCED FF                          .BYTE $FF
+ROM:CCEE FF                          .BYTE $FF
+ROM:CCEF FF                          .BYTE $FF
+ROM:CCF0 03                          .BYTE 3
+ROM:CCF1 FF                          .BYTE $FF
+ROM:CCF2 FF                          .BYTE $FF
+ROM:CCF3 FF                          .BYTE $FF
+ROM:CCF4 03                          .BYTE   3
+ROM:CCF5 FF                          .BYTE $FF
+ROM:CCF6 FF                          .BYTE $FF
+ROM:CCF7 FF                          .BYTE $FF
+ROM:CCF8 03                          .BYTE 3
+ROM:CCF9 FF                          .BYTE $FF
+ROM:CCFA FF                          .BYTE $FF
+ROM:CCFB FF                          .BYTE $FF
+ROM:CCFC 03                          .BYTE   3
+ROM:CCFD FF                          .BYTE $FF
+ROM:CCFE FF                          .BYTE $FF
+ROM:CCFF FF                          .BYTE $FF
+ROM:CD00             ; START OF FUNCTION CHUNK FOR COUT1
+ROM:CD00 00          byte_CD00:      .BYTE 0                 ; CODE XREF: COUT1+6↓j
+ROM:CD01 FF                          .BYTE $FF
+ROM:CD02 FF                          .BYTE $FF
+ROM:CD03 FF                          .BYTE $FF
+ROM:CD04 00                          .BYTE   0
+ROM:CD05 FF                          .BYTE $FF
+ROM:CD06 FF                          .BYTE $FF
+ROM:CD07 FF                          .BYTE $FF
+ROM:CD08 00                          .BYTE 0
+ROM:CD09 FF                          .BYTE $FF
+ROM:CD0A FF                          .BYTE $FF
+ROM:CD0B FF                          .BYTE $FF
+ROM:CD0C 00                          .BYTE   0
+ROM:CD0D FF                          .BYTE $FF
+ROM:CD0E FF                          .BYTE $FF
+ROM:CD0F FF                          .BYTE $FF
+ROM:CD10 00                          .BYTE 0
+ROM:CD11 FF                          .BYTE $FF
+ROM:CD12 FF                          .BYTE $FF
+ROM:CD13 FF                          .BYTE $FF
+ROM:CD14 00                          .BYTE   0
+ROM:CD15 FF                          .BYTE $FF
+ROM:CD16 FF                          .BYTE $FF
+ROM:CD17 FF                          .BYTE $FF
+ROM:CD18 00                          .BYTE   0
+ROM:CD19 FF                          .BYTE $FF
+ROM:CD1A FF                          .BYTE $FF
+ROM:CD1B FF                          .BYTE $FF
+ROM:CD1C 00                          .BYTE   0
+ROM:CD1C             ; END OF FUNCTION CHUNK FOR COUT1
+ROM:CD1D FF                          .BYTE $FF
+ROM:CD1E FF                          .BYTE $FF
+ROM:CD1F FF                          .BYTE $FF
+ROM:CD20 00                          .BYTE 0
+ROM:CD21 FF                          .BYTE $FF
+ROM:CD22 FF                          .BYTE $FF
+ROM:CD23 FF                          .BYTE $FF
+ROM:CD24 00                          .BYTE   0
+ROM:CD25 FF                          .BYTE $FF
+ROM:CD26 FF                          .BYTE $FF
+ROM:CD27 FF                          .BYTE $FF
+ROM:CD28 00                          .BYTE   0
+ROM:CD29 FF                          .BYTE $FF
+ROM:CD2A FF                          .BYTE $FF
+ROM:CD2B FF                          .BYTE $FF
+ROM:CD2C 00                          .BYTE 0
+ROM:CD2D FF                          .BYTE $FF
+ROM:CD2E FF                          .BYTE $FF
+ROM:CD2F FF                          .BYTE $FF
+ROM:CD30 00                          .BYTE   0
+ROM:CD31 FF                          .BYTE $FF
+ROM:CD32 FF                          .BYTE $FF
+ROM:CD33 FF                          .BYTE $FF
+ROM:CD34 00                          .BYTE   0
+ROM:CD35 FF                          .BYTE $FF
+ROM:CD36 FF                          .BYTE $FF
+ROM:CD37 FF                          .BYTE $FF
+ROM:CD38 00                          .BYTE 0
+ROM:CD39 FF                          .BYTE $FF
+ROM:CD3A FF                          .BYTE $FF
+ROM:CD3B FF                          .BYTE $FF
+ROM:CD3C 00                          .BYTE   0
+ROM:CD3D FF                          .BYTE $FF
+ROM:CD3E FF                          .BYTE $FF
+ROM:CD3F FF                          .BYTE $FF
+ROM:CD40 02                          .BYTE   2
+ROM:CD41 FF                          .BYTE $FF
+ROM:CD42 FF                          .BYTE $FF
+ROM:CD43 FF                          .BYTE $FF
+ROM:CD44 02                          .BYTE   2
+ROM:CD45 FF                          .BYTE $FF
+ROM:CD46 FF                          .BYTE $FF
+ROM:CD47 FF                          .BYTE $FF
+ROM:CD48 02                          .BYTE   2
+ROM:CD49 FF                          .BYTE $FF
+ROM:CD4A FF                          .BYTE $FF
+ROM:CD4B FF                          .BYTE $FF
+ROM:CD4C 02                          .BYTE   2
+ROM:CD4D FF                          .BYTE $FF
+ROM:CD4E FF                          .BYTE $FF
+ROM:CD4F FF                          .BYTE $FF
+ROM:CD50 02                          .BYTE   2
+ROM:CD51 FF                          .BYTE $FF
+ROM:CD52 FF                          .BYTE $FF
+ROM:CD53 FF                          .BYTE $FF
+ROM:CD54 02                          .BYTE   2
+ROM:CD55 FF                          .BYTE $FF
+ROM:CD56 FF                          .BYTE $FF
+ROM:CD57 FF                          .BYTE $FF
+ROM:CD58 02                          .BYTE   2
+ROM:CD59 FF                          .BYTE $FF
+ROM:CD5A FF                          .BYTE $FF
+ROM:CD5B FF                          .BYTE $FF
+ROM:CD5C 02                          .BYTE   2
+ROM:CD5D FF                          .BYTE $FF
+ROM:CD5E FF                          .BYTE $FF
+ROM:CD5F FF                          .BYTE $FF
+ROM:CD60 02                          .BYTE   2
+ROM:CD61 FF                          .BYTE $FF
+ROM:CD62 FF                          .BYTE $FF
+ROM:CD63 FF                          .BYTE $FF
+ROM:CD64 02                          .BYTE   2
+ROM:CD65 FF                          .BYTE $FF
+ROM:CD66 FF                          .BYTE $FF
+ROM:CD67 FF                          .BYTE $FF
+ROM:CD68 02                          .BYTE   2
+ROM:CD69 FF                          .BYTE $FF
+ROM:CD6A FF                          .BYTE $FF
+ROM:CD6B FF                          .BYTE $FF
+ROM:CD6C 02                          .BYTE   2
+ROM:CD6D FF                          .BYTE $FF
+ROM:CD6E FF                          .BYTE $FF
+ROM:CD6F FF                          .BYTE $FF
+ROM:CD70 02                          .BYTE   2
+ROM:CD71 FF                          .BYTE $FF
+ROM:CD72 FF                          .BYTE $FF
+ROM:CD73 FF                          .BYTE $FF
+ROM:CD74 02                          .BYTE   2
+ROM:CD75 FF                          .BYTE $FF
+ROM:CD76 FF                          .BYTE $FF
+ROM:CD77 FF                          .BYTE $FF
+ROM:CD78 02                          .BYTE   2
+ROM:CD79 FF                          .BYTE $FF
+ROM:CD7A FF                          .BYTE $FF
+ROM:CD7B FF                          .BYTE $FF
+ROM:CD7C 02                          .BYTE   2
+ROM:CD7D FF                          .BYTE $FF
+ROM:CD7E FF                          .BYTE $FF
+ROM:CD7F FF                          .BYTE $FF
+ROM:CD80 01                          .BYTE   1
+ROM:CD81 FF                          .BYTE $FF
+ROM:CD82 FF                          .BYTE $FF
+ROM:CD83 FF                          .BYTE $FF
+ROM:CD84 01                          .BYTE   1
+ROM:CD85 FF                          .BYTE $FF
+ROM:CD86 FF                          .BYTE $FF
+ROM:CD87 FF                          .BYTE $FF
+ROM:CD88 01                          .BYTE   1
+ROM:CD89 FF                          .BYTE $FF
+ROM:CD8A FF                          .BYTE $FF
+ROM:CD8B FF                          .BYTE $FF
+ROM:CD8C 01                          .BYTE   1
+ROM:CD8D FF                          .BYTE $FF
+ROM:CD8E FF                          .BYTE $FF
+ROM:CD8F FF                          .BYTE $FF
+ROM:CD90 01                          .BYTE   1
+ROM:CD91 FF                          .BYTE $FF
+ROM:CD92 FF                          .BYTE $FF
+ROM:CD93 FF                          .BYTE $FF
+ROM:CD94 01                          .BYTE   1
+ROM:CD95 FF                          .BYTE $FF
+ROM:CD96 FF                          .BYTE $FF
+ROM:CD97 FF                          .BYTE $FF
+ROM:CD98 01                          .BYTE   1
+ROM:CD99 FF                          .BYTE $FF
+ROM:CD9A FF                          .BYTE $FF
+ROM:CD9B FF                          .BYTE $FF
+ROM:CD9C 01                          .BYTE   1
+ROM:CD9D FF                          .BYTE $FF
+ROM:CD9E FF                          .BYTE $FF
+ROM:CD9F FF                          .BYTE $FF
+ROM:CDA0 01                          .BYTE   1
+ROM:CDA1 FF                          .BYTE $FF
+ROM:CDA2 FF                          .BYTE $FF
+ROM:CDA3 FF                          .BYTE $FF
+ROM:CDA4 01                          .BYTE   1
+ROM:CDA5 FF                          .BYTE $FF
+ROM:CDA6 FF                          .BYTE $FF
+ROM:CDA7 FF                          .BYTE $FF
+ROM:CDA8 01                          .BYTE   1
+ROM:CDA9 FF                          .BYTE $FF
+ROM:CDAA FF                          .BYTE $FF
+ROM:CDAB FF                          .BYTE $FF
+ROM:CDAC 01                          .BYTE   1
+ROM:CDAD FF                          .BYTE $FF
+ROM:CDAE FF                          .BYTE $FF
+ROM:CDAF FF                          .BYTE $FF
+ROM:CDB0 01                          .BYTE   1
+ROM:CDB1 FF                          .BYTE $FF
+ROM:CDB2 FF                          .BYTE $FF
+ROM:CDB3 FF                          .BYTE $FF
+ROM:CDB4 01                          .BYTE   1
+ROM:CDB5 FF                          .BYTE $FF
+ROM:CDB6 FF                          .BYTE $FF
+ROM:CDB7 FF                          .BYTE $FF
+ROM:CDB8 01                          .BYTE   1
+ROM:CDB9 FF                          .BYTE $FF
+ROM:CDBA FF                          .BYTE $FF
+ROM:CDBB FF                          .BYTE $FF
+ROM:CDBC 01                          .BYTE   1
+ROM:CDBD FF                          .BYTE $FF
+ROM:CDBE FF                          .BYTE $FF
+ROM:CDBF FF                          .BYTE $FF
+ROM:CDC0 03                          .BYTE   3
+ROM:CDC1 FF                          .BYTE $FF
+ROM:CDC2 FF                          .BYTE $FF
+ROM:CDC3 FF                          .BYTE $FF
+ROM:CDC4 03                          .BYTE   3
+ROM:CDC5 FF                          .BYTE $FF
+ROM:CDC6 FF                          .BYTE $FF
+ROM:CDC7 FF                          .BYTE $FF
+ROM:CDC8 03                          .BYTE   3
+ROM:CDC9 FF                          .BYTE $FF
+ROM:CDCA FF                          .BYTE $FF
+ROM:CDCB FF                          .BYTE $FF
+ROM:CDCC 03                          .BYTE   3
+ROM:CDCD FF                          .BYTE $FF
+ROM:CDCE FF                          .BYTE $FF
+ROM:CDCF FF                          .BYTE $FF
+ROM:CDD0 03                          .BYTE   3
+ROM:CDD1 FF                          .BYTE $FF
+ROM:CDD2 FF                          .BYTE $FF
+ROM:CDD3 FF                          .BYTE $FF
+ROM:CDD4 03                          .BYTE   3
+ROM:CDD5 FF                          .BYTE $FF
+ROM:CDD6 FF                          .BYTE $FF
+ROM:CDD7 FF                          .BYTE $FF
+ROM:CDD8 03                          .BYTE   3
+ROM:CDD9 FF                          .BYTE $FF
+ROM:CDDA FF                          .BYTE $FF
+ROM:CDDB FF                          .BYTE $FF
+ROM:CDDC 03                          .BYTE   3
+ROM:CDDD FF                          .BYTE $FF
+ROM:CDDE FF                          .BYTE $FF
+ROM:CDDF FF                          .BYTE $FF
+ROM:CDE0 03                          .BYTE   3
+ROM:CDE1 FF                          .BYTE $FF
+ROM:CDE2 FF                          .BYTE $FF
+ROM:CDE3 FF                          .BYTE $FF
+ROM:CDE4 03                          .BYTE   3
+ROM:CDE5 FF                          .BYTE $FF
+ROM:CDE6 FF                          .BYTE $FF
+ROM:CDE7 FF                          .BYTE $FF
+ROM:CDE8 03                          .BYTE   3
+ROM:CDE9 FF                          .BYTE $FF
+ROM:CDEA FF                          .BYTE $FF
+ROM:CDEB FF                          .BYTE $FF
+ROM:CDEC 03                          .BYTE   3
+ROM:CDED FF                          .BYTE $FF
+ROM:CDEE FF                          .BYTE $FF
+ROM:CDEF FF                          .BYTE $FF
+ROM:CDF0 03                          .BYTE   3
+ROM:CDF1 FF                          .BYTE $FF
+ROM:CDF2 FF                          .BYTE $FF
+ROM:CDF3 FF                          .BYTE $FF
+ROM:CDF4 03                          .BYTE   3
+ROM:CDF5 FF                          .BYTE $FF
+ROM:CDF6 FF                          .BYTE $FF
+ROM:CDF7 FF                          .BYTE $FF
+ROM:CDF8 03                          .BYTE   3
+ROM:CDF9 FF                          .BYTE $FF
+ROM:CDFA FF                          .BYTE $FF
+ROM:CDFB FF                          .BYTE $FF
+ROM:CDFC 03                          .BYTE   3
+ROM:CDFD FF                          .BYTE $FF
+ROM:CDFE FF                          .BYTE $FF
+ROM:CDFF FF                          .BYTE $FF
+ROM:CE00 AA          byte_CE00:      .BYTE $AA
+ROM:CE01 AA                          .BYTE $AA
+ROM:CE02 AB                          .BYTE $AB
+ROM:CE03 AB                          .BYTE $AB
+ROM:CE04 AA                          .BYTE $AA
+ROM:CE05 AA                          .BYTE $AA
+ROM:CE06 AB                          .BYTE $AB
+ROM:CE07 AB                          .BYTE $AB
+ROM:CE08 AE                          .BYTE $AE
+ROM:CE09 AE                          .BYTE $AE
+ROM:CE0A AF                          .BYTE $AF
+ROM:CE0B AF                          .BYTE $AF
+ROM:CE0C AE                          .BYTE $AE
+ROM:CE0D AE                          .BYTE $AE
+ROM:CE0E AF                          .BYTE $AF
+ROM:CE0F AF                          .BYTE $AF
+ROM:CE10 AA                          .BYTE $AA
+ROM:CE11 AA                          .BYTE $AA
+ROM:CE12 AB                          .BYTE $AB
+ROM:CE13 AB                          .BYTE $AB
+ROM:CE14 AA                          .BYTE $AA
+ROM:CE15 AA                          .BYTE $AA
+ROM:CE16 AB                          .BYTE $AB
+ROM:CE17 AB                          .BYTE $AB
+ROM:CE18 AE                          .BYTE $AE
+ROM:CE19 AE                          .BYTE $AE
+ROM:CE1A AF                          .BYTE $AF
+ROM:CE1B AF                          .BYTE $AF
+ROM:CE1C AE                          .BYTE $AE
+ROM:CE1D AE                          .BYTE $AE
+ROM:CE1E AF                          .BYTE $AF
+ROM:CE1F AF                          .BYTE $AF
+ROM:CE20 BA                          .BYTE $BA
+ROM:CE21 BA                          .BYTE $BA
+ROM:CE22 BB                          .BYTE $BB
+ROM:CE23 BB                          .BYTE $BB
+ROM:CE24 BA                          .BYTE $BA
+ROM:CE25 BA                          .BYTE $BA
+ROM:CE26 BB                          .BYTE $BB
+ROM:CE27 BB                          .BYTE $BB
+ROM:CE28 AA          byte_CE28:      .BYTE $AA
+ROM:CE29 AB                          .BYTE $AB
+ROM:CE2A AA                          .BYTE $AA
+ROM:CE2B AB                          .BYTE $AB
+ROM:CE2C AE                          .BYTE $AE
+ROM:CE2D AF                          .BYTE $AF
+ROM:CE2E AE                          .BYTE $AE
+ROM:CE2F AF                          .BYTE $AF
+ROM:CE30 AA                          .BYTE $AA
+ROM:CE31 AB                          .BYTE $AB
+ROM:CE32 AA                          .BYTE $AA
+ROM:CE33 AB                          .BYTE $AB
+ROM:CE34 AE                          .BYTE $AE
+ROM:CE35 AF                          .BYTE $AF
+ROM:CE36 AE                          .BYTE $AE
+ROM:CE37 AF                          .BYTE $AF
+ROM:CE38 BA                          .BYTE $BA
+ROM:CE39 BB                          .BYTE $BB
+ROM:CE3A BA                          .BYTE $BA
+ROM:CE3B BB                          .BYTE $BB
+ROM:CE3C BE                          .BYTE $BE
+ROM:CE3D BF                          .BYTE $BF
+ROM:CE3E BE                          .BYTE $BE
+ROM:CE3F BF                          .BYTE $BF
+ROM:CE40 BA                          .BYTE $BA
+ROM:CE41 BB                          .BYTE $BB
+ROM:CE42 BA                          .BYTE $BA
+ROM:CE43 BB                          .BYTE $BB
+ROM:CE44 BE                          .BYTE $BE
+ROM:CE45 BF                          .BYTE $BF
+ROM:CE46 BE                          .BYTE $BE
+ROM:CE47 BF                          .BYTE $BF
+ROM:CE48 AA                          .BYTE $AA
+ROM:CE49 AB                          .BYTE $AB
+ROM:CE4A AA                          .BYTE $AA
+ROM:CE4B AB                          .BYTE $AB
+ROM:CE4C AE                          .BYTE $AE
+ROM:CE4D AF                          .BYTE $AF
+ROM:CE4E AE                          .BYTE $AE
+ROM:CE4F AF                          .BYTE $AF
+ROM:CE50 01 08       sector_ptr:     .WORD $801              ; DATA XREF: ROM:loc_C6E3↑r
+ROM:CE52 D5          SEC_HDR:        .BYTE $D5               ; Sector Header/Trailer bytes: D5 AA 96, D5 AA AD
+ROM:CE53 AA                          .BYTE $AA
+ROM:CE54 96                          .BYTE $96
+ROM:CE55 D5          SEC_TRAIL:      .BYTE $D5
+ROM:CE56 AA                          .BYTE $AA
+ROM:CE57 AD                          .BYTE $AD
+ROM:CE58
+ROM:CE58             ; =============== S U B R O U T I N E =======================================
+ROM:CE58
+ROM:CE58
+ROM:CE58             phase_delay:                            ; CODE XREF: ROM:C622↑p
+ROM:CE58                                                     ; ROM:C62B↑p ...
+ROM:CE58 A9 05                       LDA     #5
+ROM:CE5A
+ROM:CE5A             loc_CE5A:                               ; CODE XREF: ROM:C969↑p
+ROM:CE5A 8D 97 03                    STA     byte_397
+ROM:CE5D 4D 97 03                    EOR     byte_397
+ROM:CE60 8D 96 03                    STA     byte_396
+ROM:CE63
+ROM:CE63             loc_CE63:                               ; CODE XREF: phase_delay+14↓j
+ROM:CE63                                                     ; phase_delay+19↓j
+ROM:CE63 18                          CLC
+ROM:CE64 AD 96 03                    LDA     byte_396
+ROM:CE67 69 3F                       ADC     #$3F ; '?'
+ROM:CE69 8D 96 03                    STA     byte_396
+ROM:CE6C D0 F5                       BNE     loc_CE63
+ROM:CE6E CE 97 03                    DEC     byte_397
+ROM:CE71 D0 F0                       BNE     loc_CE63
+ROM:CE73
+ROM:CE73             locret_CE73:
+ROM:CE73 60                          RTS
+ROM:CE74             ; ---------------------------------------------------------------------------
+ROM:CE74
+ROM:CE74             loc_CE74:                               ; CODE XREF: ROM:C675↑p
+ROM:CE74 8A                          TXA
+ROM:CE75 18                          CLC
+ROM:CE75             ; End of function phase_delay
+ROM:CE75
+ROM:CE76 69 7B                       ADC     #$7B ; '{'
+ROM:CE78 A8                          TAY
+ROM:CE79
+ROM:CE79             locret_CE79:
+ROM:CE79 60                          RTS
+ROM:CE7A
+ROM:CE7A             ; =============== S U B R O U T I N E =======================================
+ROM:CE7A
+ROM:CE7A
+ROM:CE7A             BUILD_XLATE:                            ; CODE XREF: ROM:C60B↑p
+ROM:CE7A 8A                          TXA
+ROM:CE7B 48                          PHA
+ROM:CE7C A0 2C                       LDY     #$2C ; ','
+ROM:CE7E
+ROM:CE7E             loc_CE7E:                               ; CODE XREF: BUILD_XLATE+13↓j
+ROM:CE7E B9 00 CA                    LDA     byte_CA00,Y
+ROM:CE81 4A                          LSR     A
+ROM:CE82 4A                          LSR     A
+ROM:CE83 48                          PHA
+ROM:CE84 98                          TYA
+ROM:CE85 4A                          LSR     A
+ROM:CE86 AA                          TAX
+ROM:CE87 68                          PLA
+ROM:CE88 9D 56 03                    STA     $356,X
+ROM:CE8B C8                          INY
+ROM:CE8C C8                          INY
+ROM:CE8D D0 EF                       BNE     loc_CE7E
+ROM:CE8F 68                          PLA
+ROM:CE90 AA                          TAX
+ROM:CE91 60                          RTS
+ROM:CE91             ; End of function BUILD_XLATE
+ROM:CE91
+ROM:CE91             ; ---------------------------------------------------------------------------
+ROM:CE92 FF                          .BYTE $FF
+ROM:CE93 FF                          .BYTE $FF
+ROM:CE94 FF                          .BYTE $FF
+ROM:CE95 FF                          .BYTE $FF
+ROM:CE96 FF                          .BYTE $FF
+ROM:CE97 FF                          .BYTE $FF
+ROM:CE98 FF                          .BYTE $FF
+ROM:CE99 FF                          .BYTE $FF
+ROM:CE9A FF                          .BYTE $FF
+ROM:CE9B FF                          .BYTE $FF
+ROM:CE9C FF                          .BYTE $FF
+ROM:CE9D FF                          .BYTE $FF
+ROM:CE9E FF                          .BYTE $FF
+ROM:CE9F FF                          .BYTE $FF
+ROM:CEA0 FF                          .BYTE $FF
+ROM:CEA1 FF                          .BYTE $FF
+ROM:CEA2 FF                          .BYTE $FF
+ROM:CEA3 FF                          .BYTE $FF
+ROM:CEA4 FF                          .BYTE $FF
+ROM:CEA5 FF                          .BYTE $FF
+ROM:CEA6 FF                          .BYTE $FF
+ROM:CEA7 FF                          .BYTE $FF
+ROM:CEA8 FF                          .BYTE $FF
+ROM:CEA9 FF                          .BYTE $FF
+ROM:CEAA FF                          .BYTE $FF
+ROM:CEAB FF                          .BYTE $FF
+ROM:CEAC FF                          .BYTE $FF
+ROM:CEAD FF                          .BYTE $FF
+ROM:CEAE FF                          .BYTE $FF
+ROM:CEAF FF                          .BYTE $FF
+ROM:CEB0 FF                          .BYTE $FF
+ROM:CEB1 FF                          .BYTE $FF
+ROM:CEB2             ; ---------------------------------------------------------------------------
+ROM:CEB2 FF FF FF                    ISB     $FFFF,X
+ROM:CEB5 FF FF FF                    ISB     $FFFF,X
+ROM:CEB8 FF FF FF                    ISB     $FFFF,X
+ROM:CEBB FF FF FF                    ISB     $FFFF,X
+ROM:CEBE FF FF FF                    ISB     $FFFF,X
+ROM:CEC1 FF FF FF                    ISB     $FFFF,X
+ROM:CEC4 FF FF FF                    ISB     $FFFF,X
+ROM:CEC7 FF FF FF                    ISB     $FFFF,X
+ROM:CECA FF FF FF                    ISB     $FFFF,X
+ROM:CECD FF FF FF                    ISB     $FFFF,X
+ROM:CED0 FF FF FF                    ISB     $FFFF,X
+ROM:CED3 FF FF FF                    ISB     $FFFF,X
+ROM:CED6 FF FF FF                    ISB     $FFFF,X
+ROM:CED9 FF FF FF                    ISB     $FFFF,X
+ROM:CEDC FF FF FF                    ISB     $FFFF,X
+ROM:CEDF FF FF FF                    ISB     $FFFF,X
+ROM:CEE2 FF FF FF                    ISB     $FFFF,X
+ROM:CEE5 FF FF FF                    ISB     $FFFF,X
+ROM:CEE8 FF FF FF                    ISB     $FFFF,X
+ROM:CEEB FF FF FF                    ISB     $FFFF,X
+ROM:CEEE FF FF FF                    ISB     $FFFF,X
+ROM:CEF1 FF FF FF                    ISB     $FFFF,X
+ROM:CEF4 FF FF FF                    ISB     $FFFF,X
+ROM:CEF7 FF FF FF                    ISB     $FFFF,X
+ROM:CEFA FF FF FF                    ISB     $FFFF,X
+ROM:CEFD FF FF FF                    ISB     $FFFF,X
+ROM:CF00 FF FF FF                    ISB     $FFFF,X
+ROM:CF03 FF FF FF                    ISB     $FFFF,X
+ROM:CF06 FF FF FF                    ISB     $FFFF,X
+ROM:CF09 FF FF FF                    ISB     $FFFF,X
+ROM:CF0C FF FF FF                    ISB     $FFFF,X
+ROM:CF0F FF FF FF                    ISB     $FFFF,X
+ROM:CF12 FF FF FF                    ISB     $FFFF,X
+ROM:CF15 FF FF FF                    ISB     $FFFF,X
+ROM:CF18 FF FF FF                    ISB     $FFFF,X
+ROM:CF1B FF FF FF                    ISB     $FFFF,X
+ROM:CF1E FF FF FF                    ISB     $FFFF,X
+ROM:CF21 FF FF FF                    ISB     $FFFF,X
+ROM:CF24 FF FF FF                    ISB     $FFFF,X
+ROM:CF27 FF FF FF                    ISB     $FFFF,X
+ROM:CF2A FF FF FF                    ISB     $FFFF,X
+ROM:CF2D FF FF FF                    ISB     $FFFF,X
+ROM:CF30 FF FF FF                    ISB     $FFFF,X
+ROM:CF33 FF FF FF                    ISB     $FFFF,X
+ROM:CF36 FF FF FF                    ISB     $FFFF,X
+ROM:CF39 FF FF FF                    ISB     $FFFF,X
+ROM:CF3C FF FF FF                    ISB     $FFFF,X
+ROM:CF3F FF FF FF                    ISB     $FFFF,X
+ROM:CF42 FF FF FF                    ISB     $FFFF,X
+ROM:CF45 FF FF FF                    ISB     $FFFF,X
+ROM:CF48 FF FF FF                    ISB     $FFFF,X
+ROM:CF4B FF FF FF                    ISB     $FFFF,X
+ROM:CF4E FF FF FF                    ISB     $FFFF,X
+ROM:CF51 FF FF FF                    ISB     $FFFF,X
+ROM:CF54 FF FF FF                    ISB     $FFFF,X
+ROM:CF57 FF FF FF                    ISB     $FFFF,X
+ROM:CF5A FF FF FF                    ISB     $FFFF,X
+ROM:CF5D FF FF FF                    ISB     $FFFF,X
+ROM:CF60 FF FF FF                    ISB     $FFFF,X
+ROM:CF63 FF FF FF                    ISB     $FFFF,X
+ROM:CF66 FF FF FF                    ISB     $FFFF,X
+ROM:CF69 FF FF FF                    ISB     $FFFF,X
+ROM:CF6C FF FF FF                    ISB     $FFFF,X
+ROM:CF6F FF FF FF                    ISB     $FFFF,X
+ROM:CF72 FF FF FF                    ISB     $FFFF,X
+ROM:CF75 FF FF FF                    ISB     $FFFF,X
+ROM:CF78 FF FF FF                    ISB     $FFFF,X
+ROM:CF7B FF FF FF                    ISB     $FFFF,X
+ROM:CF7E FF FF FF                    ISB     $FFFF,X
+ROM:CF81 FF FF FF                    ISB     $FFFF,X
+ROM:CF84 FF FF FF                    ISB     $FFFF,X
+ROM:CF87 FF FF FF                    ISB     $FFFF,X
+ROM:CF8A FF FF FF                    ISB     $FFFF,X
+ROM:CF8D FF FF FF                    ISB     $FFFF,X
+ROM:CF90 FF FF FF                    ISB     $FFFF,X
+ROM:CF93 FF FF FF                    ISB     $FFFF,X
+ROM:CF96 FF FF FF                    ISB     $FFFF,X
+ROM:CF99 FF FF FF                    ISB     $FFFF,X
+ROM:CF9C FF FF FF                    ISB     $FFFF,X
+ROM:CF9F FF FF FF                    ISB     $FFFF,X
+ROM:CFA2 FF FF FF                    ISB     $FFFF,X
+ROM:CFA5 FF FF FF                    ISB     $FFFF,X
+ROM:CFA8 FF FF FF                    ISB     $FFFF,X
+ROM:CFAB FF FF FF                    ISB     $FFFF,X
+ROM:CFAE FF FF FF                    ISB     $FFFF,X
+ROM:CFB1 FF FF FF                    ISB     $FFFF,X
+ROM:CFB4 FF FF FF                    ISB     $FFFF,X
+ROM:CFB7 FF FF FF                    ISB     $FFFF,X
+ROM:CFBA FF FF FF                    ISB     $FFFF,X
+ROM:CFBD FF FF FF                    ISB     $FFFF,X
+ROM:CFC0 FF FF FF                    ISB     $FFFF,X
+ROM:CFC3 FF FF FF                    ISB     $FFFF,X
+ROM:CFC6 FF FF FF                    ISB     $FFFF,X
+ROM:CFC9 FF FF FF                    ISB     $FFFF,X
+ROM:CFCC FF FF FF                    ISB     $FFFF,X
+ROM:CFCF FF FF FF                    ISB     $FFFF,X
+ROM:CFD2 FF FF FF                    ISB     $FFFF,X
+ROM:CFD5 FF FF FF                    ISB     $FFFF,X
+ROM:CFD8 FF FF FF                    ISB     $FFFF,X
+ROM:CFDB FF FF FF                    ISB     $FFFF,X
+ROM:CFDE FF FF FF                    ISB     $FFFF,X
+ROM:CFE1 FF FF FF                    ISB     $FFFF,X
+ROM:CFE4 FF FF FF                    ISB     $FFFF,X
+ROM:CFE7 FF FF FF                    ISB     $FFFF,X
+ROM:CFEA FF FF FF                    ISB     $FFFF,X
+ROM:CFED FF FF FF                    ISB     $FFFF,X
+ROM:CFF0 FF FF FF                    ISB     $FFFF,X
+ROM:CFF3 FF FF FF                    ISB     $FFFF,X
+ROM:CFF6 FF FF FF                    ISB     $FFFF,X
+ROM:CFF9 FF FF FF                    ISB     $FFFF,X
+ROM:CFFC FF FF FF                    ISB     $FFFF,X
+ROM:CFFC             ; ---------------------------------------------------------------------------
+ROM:CFFF FF          ROMCLEAR:       .BYTE $FF               ; DATA XREF: sub_ADBA+4↑w
+ROM:CFFF                                                     ; sub_ADBA+F↑w ...
+ROM:CFFF                                                     ; disable all $C8XX rom extensions
+

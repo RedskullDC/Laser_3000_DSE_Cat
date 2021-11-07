@@ -1,0 +1,4 @@
+ROM absolute address     Usage              Execution Address
+------------------------------------------------------------------------------------
+$0000-$07FF            - Disk Firmware      - Mapped into $CX00-$CXFF when executing (8 blocks of $100 bytes)
+$1000-$1FFF            - Disk Firmware      - Mapped into $C800-$CFFF when executing
