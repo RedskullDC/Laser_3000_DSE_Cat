@@ -1,0 +1,7 @@
+DOS 3.3 RAM DISK program for the DSE CAT/Laser 3000.
+
+Loads to $9000, patches itself into DOS.
+Uses the unused 16KB block as a small RAM disk in pseudo slot#5.
+
+
+
