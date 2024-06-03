@@ -1,0 +1,131 @@
+SOFT SWITCHES
+
+3C008	  BORDER COLOUR TO     BLACK       
+3C009	                       RED                              
+3COOA	                       GREEN                            
+3COOB	                       YELLOW                           
+3COOC	                       BLUE                             
+3COOD	                       MAGENTA                          
+3COOE	                       CYAN                             
+3COOF	                       WHITE                            
+
+3C018	  BACKGROUND COLOUR TO BLACK   
+3C019	                       RED         
+3C01A	                       GREEN       
+3C01B	                       YELLOW      
+3Co1C	                       BLUE        
+3C01D	                       MAGENTA     
+3C01E	                       CYAN        
+3C01F	                       WHITE       
+
+3C028	  BACKGROUND BLACK, FOREGROUND WHITE        
+3C029	  FOREGROUND COLOUR    RED      
+3C02A	                       GREEN                   
+3C02B	                       YELLOW      
+3C02C	                       BLUE        
+3C02D	                       MAGENTA     
+3C02E	                       CYAN        
+3C02F	                       WHITE       
+
+3C04C	  LOW RESOLUTION MODE           
+3C04D	  RGB MODE                         
+3C04E	  DOUBLE RESOLUTION MODE                  
+3C04F	  80 COLUMN TEXT MODE                  
+
+3C050	  GRAPHICS MODE                    
+3C051	  TEXT MODE                  
+3C052	  PURE TEXT OR GRAPHICS MODE 
+3C053	  MIXED TEXT OR GRAPHICS MODE
+
+3C054	  PRIMARY PAGE       
+3C055	  SECONDARY PAGE             
+
+3C056	  DISABLE RGB and DOUBLE RES MODES        
+3C057	  ENABLE RGB and DOUBLE RES MODES         
+
+3C07C	  WRITE 1ST MEMORY WINDOW    
+3C07D	        2ND                        
+3C07E	        3RD                        
+3C07F	        4TH                        
+
+I/O Locations
+
+3COOO	  READ KEYBOARD DATA                 
+3C010	  CLEAR KEYBOARD STROBE              
+3C020	  CASSETTE OUTPUT                    
+3C030	  TOGGLE SPEAKER                     
+3C060	  CASSETTE INPUT                     
+3C061	  BINARY FLAG 1 INPUT                
+3C062	              2                                  
+3C063	              3                                  
+3C064	  GAME PADDLE 1 INPUT                
+3C065	              2                                  
+3C066	              3                                  
+3C067	              4                                  
+3C068	  WRITE DATA TO SOUND GENERATOR      
+3C070	  ANALOG CLEAR                       
+
+3C090	  WRITE DATA TO PRINTER              
+3C1CO	  READ PRINTER ACKNOWLEDGE           
+3C1C1	  READ PRINTER BUSY                  
+
+3C1C2	  READ HORIZONTAL BLANKING           
+3C1C3	  READ VERTICAL BLANKING             
+3C1C4	  READ 50/60 Hz STATUS             
+3C1C5	  READ HIGH RESOLUTION SWITCH (SWR1) STATUS                             
+
+
+MODE			PAGE	HEX ADDRESS
+
+40 COLUMN TEXT		0	00400 TO 007FF 
+			1	00800 TO 00BFF
+
+80 COLUMN TEXT		0	01000 TO 017FF  
+			1	01800 TO 01FFF 
+
+LOW RESOLUTION GRAPHICS	0	02000 TO 03FFF
+			1	04000 TO 07FFF
+
+RGB GRAPHICS		0	04000 TO 09FFF
+			1	0A000 TO 0FFFF  
+
+DOUBLE RESOLUTION	0	04000 TO 07FFF
+			1	08000 TO 0BFFF 
+			                 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
