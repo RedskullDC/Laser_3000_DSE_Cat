@@ -1,0 +1,4 @@
+Small program designed for the CAT to interact with the (long since defunct) Dick Smith modem based MAIL ORDER SYSTEM.
+
+Presented here purely as a curiousity :o)
+
