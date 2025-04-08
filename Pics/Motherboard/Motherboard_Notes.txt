@@ -1,0 +1,8 @@
+Two pics showing Laser3000/CAT motherboards.
+
+Notes:
+
+LASER has a single BASIC ROM in a 23256, CAT has a 4x8KB board installed underneath (not visible).
+
+CAT has an unpopulated memory Expander connector (J1 in the tech manual), LASER does not have this connector.
+(Unsure if a board was ever made to connect to J1 ??)
